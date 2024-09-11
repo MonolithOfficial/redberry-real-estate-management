@@ -1,0 +1,123 @@
+.filter-holder {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-right: 162px;
+    margin-left: 162px;
+    align-items: center;
+
+    & #filter {
+        flex: start;
+
+        & h2 {
+            padding: 8px 4px 8px 14px;
+            font-size: 16px;
+            line-height: 19.2px;
+            -webkit-user-select: none; 
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        & img {
+            padding-right: 10.5px;
+        }
+
+        & ul {
+            list-style: none;
+            display: flex;
+            flex-direction: row;
+            column-gap: 24px;
+            border: 1px solid #DBDBDB;
+            border-radius: 10px;
+
+
+            & #price-slider, #region-select, #area-slider, #rooms-select {
+                display: none;  
+            }
+
+            .price, .region, .area, .rooms {
+                & .price-label, .region-label, .area-label, .rooms-label {
+                    cursor: pointer;
+                    display: flex;
+                    flex-direction: row;
+
+                    & #price-up-arrow, #region-up-arrow, #area-up-arrow, #rooms-up-arrow {
+                        display: none;
+                        
+                        &.active {
+                            display: block;
+                        }
+                    }
+
+                    & #price-down-arrow, #region-down-arrow, #area-down-arrow, #rooms-down-arrow {
+                        display: block;
+                        
+                        &.active {
+                            display: none;
+                        }
+                    }
+                }
+
+                & #price-slider.active, #region-select.active, #area-slider.active, #rooms-select.active {
+                    display: block;
+                }
+            }
+
+            // & .region:hover #price-slider {
+            //     display: block;
+            // }
+
+            // & .region:hover {
+            //     & #region-down-arrow {
+            //         display: none;
+            //     }
+
+            //     & #region-up-arrow {
+            //         display: block;
+            //     }
+            // }
+        }
+    }
+
+    & #filter-buttons {
+        flex: end;
+        display: flex;
+        flex-direction: row;
+
+        & #add-listing {
+            background-color: #F93B1D;
+            color: #FFFFFF;
+            margin-right: 16px;
+        }
+
+        & #add-agent {
+            color: #F93B1D;
+        }
+
+        & #add-listing, #add-agent {
+            border: 1px solid #F93B1D;
+            border-radius: 10px;
+        }
+
+        & .button {
+            padding: 16px 14px 16px 14px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            height: fit-content;
+
+            & h2 {
+                margin: 0;
+                font-size: 16px;
+                line-height: 19.2px;
+            }
+
+            & img {
+                width: 22px;
+                height: 22px;
+                margin-right: 1.5px;
+            }
+        }
+    }
+}
