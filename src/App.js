@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import Header from './components/header';
 import Filter from './components/filter';
+import Listings from './components/listings';
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <Header />
       <main id='listings-page'>
         <Filter />
+        <Listings />
       </main>
     </div>
   );
