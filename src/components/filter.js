@@ -11,7 +11,15 @@ const Filter = () => {
     const [isPriceActive, setIsPriceActive] = useState(false);
     const [isAreaActive, setIsAreaActive] = useState(false);
     const [isRoomsActive, setIsRoomsActive] = useState(false);
+    const [minPrice, setMinPrice] = useState('');
+    const [maxPrice, setMaxPrice] = useState('');
+
     const regionSelectRef = useRef(null);
+    const priceRangeRef = useRef(null);
+    const minPriceInputRef = useRef(null);
+    const maxPriceInputRef = useRef(null);
+    const priceErrorRef = useRef(null);
+    // TODO other menu refs
 
     const handleClickOutsideRegionSelect = (event) => {
         if (regionSelectRef.current && !regionSelectRef.current.contains(event.target)){
@@ -19,11 +27,59 @@ const Filter = () => {
         }
     }
 
+    const handleClickOutsidePriceRange = (event) => {
+        if (priceRangeRef.current && !priceRangeRef.current.contains(event.target)){
+            setIsPriceActive(false);
+        }
+    }
+
+    // TODO other outside clicks
+
+    const handleMinPricePresetClick = (event) => {
+        if (event.target.classList.contains('min-price-preset')){
+            setMinPrice(event.target.innerText.replace("₾", ""));
+        }
+    }
+
+    const handleMaxPricePresetClick = (event) => {
+        if (event.target.classList.contains('max-price-preset')){
+            setMaxPrice(event.target.innerText.replace("₾", ""));
+        }
+    }
+
+    const validatePriceRange = () => {
+        if (Number(maxPriceInputRef.current.value.replace(",", "")) < Number(minPriceInputRef.current.value.replace(",", ""))){
+            console.log("შეცდომა");
+            priceErrorRef.current.classList.add("active");
+            minPriceInputRef.current.classList.add("error-input");
+            maxPriceInputRef.current.classList.add("error-input");
+        }
+        else {
+            priceErrorRef.current.classList.remove("active");
+            minPriceInputRef.current.classList.remove("error-input");
+            maxPriceInputRef.current.classList.remove("error-input");
+        }
+    }
+
+    const handleMinPriceChange = (event) => {
+        setMinPrice(event.target.value);
+    };
+
+    const handleMaxPriceChange = (event) => {
+        setMaxPrice(event.target.value);
+    };
+
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutsideRegionSelect);
+        document.addEventListener('mousedown', handleClickOutsidePriceRange);
+        document.addEventListener('mousedown', handleMinPricePresetClick);
+        document.addEventListener('mousedown', handleMaxPricePresetClick);
     
         return () => {
-          document.removeEventListener('mousedown', handleClickOutsideRegionSelect);
+            document.removeEventListener('mousedown', handleClickOutsideRegionSelect);
+            document.removeEventListener('mousedown', handleClickOutsidePriceRange);
+            document.removeEventListener('mousedown', handleMinPricePresetClick);
+            document.removeEventListener('mousedown', handleMaxPricePresetClick);
         };
       }, []);
 
@@ -104,23 +160,9 @@ const Filter = () => {
                                     </ul>
                                 )}
                                 <div className='select-region-btn-holder'>
-                                    <button id='select-region-btn'>არჩევა</button>
+                                    <button id='select-region-btn' className='select-btn'>არჩევა</button>
                                 </div>
                             </div>
-                            {/* <select id="region-select" name='region-select' className={`box ${isRegionActive ? 'active' : ''}`}>
-                                <option value="abkhazia">აფხაზეთი</option>
-                                <option value="ajaria">აჭარა</option>
-                                <option value="Guria">გურია</option>
-                                <option value="imereti">იმერეთი</option>
-                                <option value="kakheti">კახეთი</option>
-                                <option value="kvemo kartli">ქვემო ქართლი</option>
-                                <option value="mtskheta-mtianeti">მცხეთა-მთიანეთი</option>
-                                <option value="racha-lechkhumi-kvemo svaneti">რაჭა-ლეჩხუმი-ქვემო სვანეთი</option>
-                                <option value="samegrelo-zemo svaneti">სამეგრელო-ზემო სვანეთი</option>
-                                <option value="samtskhe-javakheti">სამცხე-ჯავახეთი</option>
-                                <option value="shida kartli">შიდა ქართლი</option>
-                                <option value="tbilisi" selected="selected">თბილისი</option>
-                            </select> */}
                         </div>
                     </li>
                     <li>
@@ -130,7 +172,42 @@ const Filter = () => {
                                 <img id='price-down-arrow' src='/images/down-icon.svg' className={`box ${isPriceActive ? 'active' : ''}`}/>
                                 <img id='price-up-arrow'src='/images/up-icon.svg' className={`box ${isPriceActive ? 'active' : ''}`}/>
                             </div>
-                            <input type='range' id='price-slider' name='price-slider' min='0' max='1000000' className={`box ${isPriceActive ? 'active' : ''}`}/>
+                            <div id='price-range' ref={priceRangeRef} className={`box ${isPriceActive ? 'active' : ''}`}>
+                                <h2>ფასის მიხედვით</h2>
+                                <div id='price-presets'>
+                                    <div id='min-preset'>
+                                        <div className='price-input-wrapper'>
+                                            <input id='min-price' name='min-price' placeholder='დან' value={minPrice} ref={minPriceInputRef} onChange={handleMinPriceChange}/>
+                                        </div>
+                                        <h3>მინ. ფასი</h3>
+                                        <ul>
+                                            <li className='min-price-preset'>50,000 ₾</li>
+                                            <li className='min-price-preset'>100,000 ₾</li>
+                                            <li className='min-price-preset'>150,000 ₾</li>
+                                            <li className='min-price-preset'>200,000 ₾</li>
+                                            <li className='min-price-preset'>300,000 ₾</li>
+                                        </ul>
+                                    </div>
+                                    <div id='max-preset'>
+                                        <div className='price-input-wrapper'>
+                                            <input id='max-price' name='max-price' placeholder='მდე' value={maxPrice} ref={maxPriceInputRef} onChange={handleMaxPriceChange}/>
+                                        </div>
+                                        <h3>მაქს. ფასი</h3>
+                                        <ul>
+                                            <li className='max-price-preset'>50,000 ₾</li>
+                                            <li className='max-price-preset'>100,000 ₾</li>
+                                            <li className='max-price-preset'>150,000 ₾</li>
+                                            <li className='max-price-preset'>200,000 ₾</li>
+                                            <li className='max-price-preset'>300,000 ₾</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div className='price-range-btn-holder'>
+                                    <h4 id='price-error' ref={priceErrorRef}>მინიმალური მნიშვნელობა არ<br /> უნდა იყოს მაქსიმალურზე მეტი</h4>
+                                    <button id='price-range-btn' className='select-btn' onClick={validatePriceRange}>არჩევა</button>
+                                </div>
+                            </div>
+                            {/* <input type='range' id='price-slider' name='price-slider' min='0' max='1000000' className={`box ${isPriceActive ? 'active' : ''}`}/> */}
                         </div>
                     </li>
 
