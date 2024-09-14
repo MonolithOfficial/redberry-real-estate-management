@@ -5,13 +5,17 @@ import userEvent from '@testing-library/user-event';
 
 
 const Filter = () => {
-    const [state, setState] = useState({
-        region: [],
-        minPrice: null,
-        maxPrice: null,
-        minArea: null,
-        maxArea: null,
-        rooms: null
+    // მონაცემების შენახვის ლოგიკა
+    const [state, setState] = useState(() => {
+        const cachedState = localStorage.getItem('cachedState');
+        return cachedState ? JSON.parse(cachedState) : {
+            region: [],
+            minPrice: null,
+            maxPrice: null,
+            minArea: null,
+            maxArea: null,
+            rooms: null
+        };
     });
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -38,7 +42,7 @@ const Filter = () => {
     const roomsLabelRef = useRef(null);
     const roomsInputRef = useRef(null);
 
-    // REGION
+    // რეგიონი
     const handleClickOutsideRegionSelect = (event) => {
         if (regionSelectRef.current && !regionSelectRef.current.contains(event.target) && !regionLabelRef.current.contains(event.target)){
             setIsRegionActive(false);
@@ -59,9 +63,10 @@ const Filter = () => {
             ...prevState,
             region: checkedRegionLabels,
         }));
+        setIsRegionActive(false);
     }
 
-    // PRICE
+    // ფასი
     const handleClickOutsidePriceRange = (event) => {
         if (priceRangeRef.current && !priceRangeRef.current.contains(event.target) && !priceLabelRef.current.contains(event.target)){
             setIsPriceActive(false);
@@ -96,10 +101,11 @@ const Filter = () => {
             priceErrorRef.current.classList.remove("active");
             minPriceInputRef.current.classList.remove("error-input");
             maxPriceInputRef.current.classList.remove("error-input");
+            setIsPriceActive(false);
         }
     }
 
-    // AREA
+    // ფართობი
     const handleClickOutsideAreaRange = (event) => {
         if (areaRangeRef.current && !areaRangeRef.current.contains(event.target) && !areaLabelRef.current.contains(event.target)){
             setIsAreaActive(false);
@@ -134,10 +140,11 @@ const Filter = () => {
             areaErrorRef.current.classList.remove("active");
             minAreaInputRef.current.classList.remove("error-input");
             maxAreaInputRef.current.classList.remove("error-input");
+            setIsAreaActive(false);
         }
     }
 
-    // ROOMS
+    // ოთახები
     const handleClickOutsideRooms = (event) => {
         if (roomsSelectRef.current && !roomsSelectRef.current.contains(event.target) && !roomsLabelRef.current.contains(event.target)){
             setIsRoomsActive(false);
@@ -149,8 +156,13 @@ const Filter = () => {
             ...prevState,
             rooms: roomsInputRef.current.value
         }));
+        setIsRoomsActive(false);
     };
 
+    // მონაცემების შენახვის ლოგიკა
+    useEffect(() => {
+        localStorage.setItem('cachedState', JSON.stringify(state));
+    }, [state]);
 
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutsideRegionSelect);
@@ -206,9 +218,9 @@ const Filter = () => {
         const fetchData = async () => {
             try {
                 const response = await axios.get('https://api.real-estate-manager.redberryinternship.ge/api/regions', {
-                    headers: {
-                        'Authorization': 'Bearer 9cfda59e-ab9c-4d44-a3b0-794325f8b2e6'
-                    }
+                    // headers: {
+                    //     'Authorization': 'Bearer 9cfda59e-ab9c-4d44-a3b0-794325f8b2e6'
+                    // }
                 });
                 setData(response.data);
                 console.log(response);
@@ -231,15 +243,15 @@ const Filter = () => {
                 <ul id='filter-options'>
                     <li>
                         <div className='region'>
-                            <div className='region-label' onClick={handleRegionToggle}>
-                                <h2 ref={regionLabelRef}>რეგიონი</h2>
+                            <div className='region-label' ref={regionLabelRef} onClick={handleRegionToggle}>
+                                <h2>რეგიონი</h2>
                                 <img id='region-down-arrow' src='/images/down-icon.svg' className={`box ${isRegionActive ? 'active' : ''}`}/>
                                 <img id='region-up-arrow'src='/images/up-icon.svg' className={`box ${isRegionActive ? 'active' : ''}`}/>
                             </div>
                             <div id='region-select' ref={regionSelectRef} className={`box ${isRegionActive ? 'active' : ''}`}>
                                 <h2>რეგიონის მიხედვით</h2>
                                 {loading ? (
-                                    <p>Loading...</p>
+                                    <p>Loading...</p> // TODO: რამე სპინერი
                                 ) : error ? (
                                     <p>Error: {error.message}</p> 
                                 ) : (
@@ -260,8 +272,8 @@ const Filter = () => {
                     </li>
                     <li>
                         <div className='price'>
-                            <div className='price-label' onClick={handlePriceToggle}>
-                                <h2 ref={priceLabelRef}>საფასო კატეგორია</h2>
+                            <div className='price-label' ref={priceLabelRef} onClick={handlePriceToggle}>
+                                <h2>საფასო კატეგორია</h2>
                                 <img id='price-down-arrow' src='/images/down-icon.svg' className={`box ${isPriceActive ? 'active' : ''}`}/>
                                 <img id='price-up-arrow'src='/images/up-icon.svg' className={`box ${isPriceActive ? 'active' : ''}`}/>
                             </div>
@@ -305,8 +317,8 @@ const Filter = () => {
 
                     <li>
                         <div className='area'>
-                            <div className='area-label' onClick={handleAreaToggle}>
-                                <h2 ref={areaLabelRef}>ფართობი</h2>
+                            <div className='area-label' ref={areaLabelRef} onClick={handleAreaToggle}>
+                                <h2>ფართობი</h2>
                                 <img id='area-down-arrow' src='/images/down-icon.svg' className={`box ${isAreaActive ? 'active' : ''}`}/>
                                 <img id='area-up-arrow'src='/images/up-icon.svg' className={`box ${isAreaActive ? 'active' : ''}`}/>
                             </div>
@@ -349,8 +361,8 @@ const Filter = () => {
                     </li>
                     <li>
                         <div className='rooms'>
-                            <div className='rooms-label' onClick={handleRoomsToggle}>
-                                <h2 ref={roomsLabelRef}>საძინებლების რაოდენობა</h2>
+                            <div className='rooms-label' ref={roomsLabelRef} onClick={handleRoomsToggle}>
+                                <h2>საძინებლების რაოდენობა</h2>
                                 <img id='rooms-down-arrow' src='/images/down-icon.svg' className={`box ${isRoomsActive ? 'active' : ''}`}/>
                                 <img id='rooms-up-arrow'src='/images/up-icon.svg' className={`box ${isRoomsActive ? 'active' : ''}`}/>
                             </div>
