@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import styles from '../styles/filter.scss';
 import userEvent from '@testing-library/user-event';
+import TagBar from './tag-bar';
 
 
 const Filter = () => {
@@ -17,6 +18,31 @@ const Filter = () => {
             rooms: null
         };
     });
+
+    // შვილობილი კომპონენტიდან სთეითის მოდიფიცირების ლოგიკა
+    const removeStateProperty = (property) => {
+        setState(prevState => {
+            let updatedValue;
+            switch (property) {
+              case 'region':
+                updatedValue = [];
+                break;
+              default:
+                updatedValue = '';
+                break;
+            }
+            return { ...prevState, [property]: updatedValue };
+          });
+    };
+
+    // სპეციფიური რეგიონის ამოშლა ფილტრიდან
+    const removeRegion = (regionToRemove) => {
+        setState(prevState => ({
+          ...prevState,
+          region: prevState.region.filter(region => region !== regionToRemove)
+        }));
+    };
+
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -377,6 +403,7 @@ const Filter = () => {
                         </div>
                     </li>
                 </ul>
+                <TagBar removeStateProperty={removeStateProperty} removeRegion={removeRegion} state={state}/>
             </div>
             <div id='filter-buttons'>
                 <div id='add-listing' className='button'>
