@@ -20,14 +20,10 @@ const Filter = () => {
     const [isPriceActive, setIsPriceActive] = useState(false);
     const [isAreaActive, setIsAreaActive] = useState(false);
     const [isRoomsActive, setIsRoomsActive] = useState(false);
-    const [minPrice, setMinPrice] = useState('');
-    const [maxPrice, setMaxPrice] = useState('');
-    const [minArea, setMinArea] = useState('');
-    const [maxArea, setMaxArea] = useState('');
-    const [rooms, setRooms] = useState('');
 
     const regionSelectRef = useRef(null);
     const regionLabelRef = useRef(null);
+    const regionListRef = useRef(null);
     const priceRangeRef = useRef(null);
     const priceLabelRef = useRef(null);
     const minPriceInputRef = useRef(null);
@@ -40,12 +36,29 @@ const Filter = () => {
     const areaErrorRef = useRef(null);
     const roomsSelectRef = useRef(null);
     const roomsLabelRef = useRef(null);
+    const roomsInputRef = useRef(null);
 
     // REGION
     const handleClickOutsideRegionSelect = (event) => {
         if (regionSelectRef.current && !regionSelectRef.current.contains(event.target) && !regionLabelRef.current.contains(event.target)){
             setIsRegionActive(false);
         }
+    }
+
+    const validateRegion = () => {
+        const checkedRegionCheckboxes = regionListRef.current.querySelectorAll('input[type="checkbox"]:checked');
+        const checkedRegionLabels = [];
+    
+        checkedRegionCheckboxes.forEach(checkbox => {
+            const label = document.querySelector(`label[for="${checkbox.id}"]`);
+            if (label) {
+                checkedRegionLabels.push(label.textContent.trim());
+            }
+        });
+        setState(prevState => ({
+            ...prevState,
+            region: checkedRegionLabels,
+        }));
     }
 
     // PRICE
@@ -57,19 +70,13 @@ const Filter = () => {
 
     const handleMinPricePresetClick = (event) => {
         if (event.target.classList.contains('min-price-preset')){
-            setState(prevState => ({
-                ...prevState,
-                minPrice: event.target.innerText.replace("₾", "")
-            }));
+            minPriceInputRef.current.value = event.target.innerText.replace("₾", "")
         }
     }
 
     const handleMaxPricePresetClick = (event) => {
         if (event.target.classList.contains('max-price-preset')){
-            setState(prevState => ({
-                ...prevState,
-                maxPrice: event.target.innerText.replace("₾", "")
-            }));
+            maxPriceInputRef.current.value = event.target.innerText.replace("₾", "")
         }
     }
 
@@ -81,25 +88,16 @@ const Filter = () => {
             maxPriceInputRef.current.classList.add("error-input");
         }
         else {
+            setState(prevState => ({
+                ...prevState,
+                minPrice: minPriceInputRef.current.value,
+                maxPrice: maxPriceInputRef.current.value
+            }));
             priceErrorRef.current.classList.remove("active");
             minPriceInputRef.current.classList.remove("error-input");
             maxPriceInputRef.current.classList.remove("error-input");
         }
     }
-
-    const handleMinPriceChange = (event) => {
-        setState(prevState => ({
-            ...prevState,
-            minPrice: event.target.value
-        }));
-    };
-
-    const handleMaxPriceChange = (event) => {
-        setState(prevState => ({
-            ...prevState,
-            maxPrice: event.target.value
-        }));
-    };
 
     // AREA
     const handleClickOutsideAreaRange = (event) => {
@@ -110,35 +108,15 @@ const Filter = () => {
 
     const handleMinAreaPresetClick = (event) => {
         if (event.target.classList.contains('min-area-preset')){
-            setState(prevState => ({
-                ...prevState,
-                minArea: event.target.innerText.replace("მ²", "")
-            }));
+            minAreaInputRef.current.value = event.target.innerText.replace("მ²", "");
         }
     }
 
     const handleMaxAreaPresetClick = (event) => {
         if (event.target.classList.contains('max-area-preset')){
-            setState(prevState => ({
-                ...prevState,
-                maxArea: event.target.innerText.replace("მ²", "")
-            }));
+            maxAreaInputRef.current.value = event.target.innerText.replace("მ²", "");
         }
     }
-
-    const handleMinAreaChange = (event) => {
-        setState(prevState => ({
-            ...prevState,
-            minArea: event.target.value
-        }));
-    };
-
-    const handleMaxAreaChange = (event) => {
-        setState(prevState => ({
-            ...prevState,
-            maxArea: event.target.value
-        }));
-    };
 
     const validateAreaRange = () => {
         if (Number(maxAreaInputRef.current.value.replace(",", "")) < Number(minAreaInputRef.current.value.replace(",", ""))){
@@ -148,6 +126,11 @@ const Filter = () => {
             maxAreaInputRef.current.classList.add("error-input");
         }
         else {
+            setState(prevState => ({
+                ...prevState,
+                minArea: minAreaInputRef.current.value,
+                maxArea: maxAreaInputRef.current.value
+            }));
             areaErrorRef.current.classList.remove("active");
             minAreaInputRef.current.classList.remove("error-input");
             maxAreaInputRef.current.classList.remove("error-input");
@@ -161,10 +144,10 @@ const Filter = () => {
         }
     }
 
-    const handleRoomsChange = (event) => {
+    const validateRooms = () => {
         setState(prevState => ({
             ...prevState,
-            rooms: event.target.value
+            rooms: roomsInputRef.current.value
         }));
     };
 
@@ -260,17 +243,17 @@ const Filter = () => {
                                 ) : error ? (
                                     <p>Error: {error.message}</p> 
                                 ) : (
-                                    <ul>
+                                    <ul ref={regionListRef}>
                                     {data.map(region => (
                                         <li key={region.id}>
-                                        <input type="checkbox" id={region.name} name={region.name} value={region.name} />
-                                        <label htmlFor={region.name}>{region.name}</label>
+                                            <input type="checkbox" id={region.name} name={region.name} value={region.name} />
+                                            <label htmlFor={region.name}>{region.name}</label>
                                         </li>
                                     ))}
                                     </ul>
                                 )}
                                 <div className='select-region-btn-holder'>
-                                    <button id='select-region-btn' className='select-btn'>არჩევა</button>
+                                    <button id='select-region-btn' className='select-btn' onClick={validateRegion}>არჩევა</button>
                                 </div>
                             </div>
                         </div>
@@ -287,7 +270,7 @@ const Filter = () => {
                                 <div id='price-presets'>
                                     <div id='min-preset'>
                                         <div className='price-input-wrapper'>
-                                            <input id='min-price' name='min-price' placeholder='დან' value={state.minPrice} ref={minPriceInputRef} onChange={handleMinPriceChange}/>
+                                            <input id='min-price' name='min-price' placeholder='დან' ref={minPriceInputRef}/>
                                         </div>
                                         <h4 id='price-error' ref={priceErrorRef}>ჩაწერეთ ვალიდური მონაცემები</h4>
                                         <h3>მინ. ფასი</h3>
@@ -301,7 +284,7 @@ const Filter = () => {
                                     </div>
                                     <div id='max-preset'>
                                         <div className='price-input-wrapper'>
-                                            <input id='max-price' name='max-price' placeholder='მდე' value={state.maxPrice} ref={maxPriceInputRef} onChange={handleMaxPriceChange}/>
+                                            <input id='max-price' name='max-price' placeholder='მდე' ref={maxPriceInputRef}/>
                                         </div>
                                         <h3>მაქს. ფასი</h3>
                                         <ul>
@@ -332,7 +315,7 @@ const Filter = () => {
                                 <div id='area-presets'>
                                     <div id='min-preset'>
                                         <div className='area-input-wrapper'>
-                                            <input id='min-area' name='min-area' placeholder='დან' value={state.minArea} ref={minAreaInputRef} onChange={handleMinAreaChange}/>
+                                            <input id='min-area' name='min-area' placeholder='დან' ref={minAreaInputRef}/>
                                         </div>
                                         <h4 id='area-error' ref={areaErrorRef}>ჩაწერეთ ვალიდური მონაცემები</h4>
                                         <h3>მინ. მ²</h3>
@@ -346,7 +329,7 @@ const Filter = () => {
                                     </div>
                                     <div id='max-preset'>
                                         <div className='area-input-wrapper'>
-                                            <input id='max-area' name='max-area' placeholder='მდე' value={state.maxArea} ref={maxAreaInputRef} onChange={handleMaxAreaChange}/>
+                                            <input id='max-area' name='max-area' placeholder='მდე' ref={maxAreaInputRef}/>
                                         </div>
                                         <h3>მაქს. მ²</h3>
                                         <ul>
@@ -373,9 +356,9 @@ const Filter = () => {
                             </div>
                             <div id="rooms-select" ref={roomsSelectRef} name='rooms-select' className={`box ${isRoomsActive ? 'active' : ''}`}>
                                 <h2>საძინებლების რაოდენობა</h2>
-                                <input type='number' id='rooms-input' name='rooms-input' min="1" max="50" defaultValue="1" onChange={handleRoomsChange}/>
+                                <input type='number' ref={roomsInputRef} id='rooms-input' name='rooms-input' min="1" max="50" defaultValue="1"/>
                                 <div className='rooms-select-btn-holder'>
-                                    <button id='rooms-select-btn' className='select-btn'>არჩევა</button>
+                                    <button id='rooms-select-btn' className='select-btn' onClick={validateRooms}>არჩევა</button>
                                 </div>
                             </div>
                             
