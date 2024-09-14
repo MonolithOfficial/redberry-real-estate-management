@@ -34,8 +34,9 @@
             padding: 6px;
 
 
-            & #price-range, #region-select, #area-slider, #rooms-select {
-                display: none;  
+            & #price-range, #region-select, #area-range, #rooms-select {
+                display: none; 
+                background-color: #FFFFFF; 
             }
 
             .price, .region, .area, .rooms {
@@ -66,7 +67,7 @@
                     }
                 }
 
-                & #region-select.active, #price-range.active, #area-slider.active, #rooms-select.active {
+                & #region-select.active, #price-range.active, #area-range.active, #rooms-select.active {
                     display: block;
                 }
 
@@ -130,7 +131,7 @@
                     }
                 }
 
-                & #price-range {
+                & #price-range, #area-range, #rooms-select {
                     position: absolute;
                     border: 1px solid #DBDBDB;
                     border-radius: 10px;
@@ -144,7 +145,7 @@
                         padding: 0px 24px 24px 0px;
                     }
 
-                    & #price-presets {
+                    & #price-presets, #area-presets {
                         display: flex;
                         flex-direction: row;
                         column-gap: 15px;
@@ -156,11 +157,22 @@
                             margin-bottom: 16px;
                         }
 
+                        & .area-input-wrapper {
+                            &::after {
+                                content: "მ²";
+                            }
+                        }
+
                         & .price-input-wrapper {
+                            &::after {
+                                content: "₾";
+                            }
+                        }
+
+                        & .price-input-wrapper, .area-input-wrapper {
                             position: relative;
 
                             &::after {
-                                content: "₾";
                                 position: absolute;
                                 right: 10px;
                                 top: 50%;
@@ -175,10 +187,26 @@
                                 border: 1px solid #808A93;
                                 border-radius: 6px;
 
-                                &.error-input {
-                                    border: 1px solid red;
-                                    color: red;
+                                &:focus {
+                                    outline: auto;
                                 }
+
+                                &.error-input {
+                                    border: 1px solid #F93B1D;
+                                }
+                            }
+                        }
+
+                        & #price-error, #area-error {
+                            opacity: 0%;
+                            color: #F93B1D;
+                            font-weight: 400;
+                            font-size: 14px;
+                            margin: 0;
+                            position: absolute;
+    
+                            &.active {
+                                opacity: 100%;
                             }
                         }
 
@@ -191,34 +219,54 @@
                             row-gap: 8px;
                             margin-bottom: 32px;
 
-                            & .min-price-preset, .max-price-preset {
+                            & .min-price-preset, .max-price-preset, .min-area-preset, .max-area-preset {
                                 cursor: pointer;
                                 font-size: 14px;
                             }
                         }
                     }
 
-                    & .price-range-btn-holder {
+
+                    & .price-range-btn-holder, .area-range-btn-holder, .rooms-select-btn-holder {
                         display: flex;
                         flex-direction: row;
-                        justify-content: space-between;
+                        justify-content: end;
                         align-items: center;
-                        & #price-error {
-                            opacity: 0%;
-                            color: red;
-                            font-size: 14px;
-    
-                            &.active {
-                                opacity: 100%;
-                            }
-                        }
 
-                        & #price-range-btn {
+                        & #price-range-btn, #area-range-btn, #rooms-select-btn {
                             height: 33px;
                             font-size: 14px;
                             font-weight: 500;
                         }
                     }
+
+                    & #rooms-input {
+                        height: 42px;
+                        width: 41px;
+                        background-color: #FFFFFF;
+                        border: 1px solid #808A93;
+                        color: #808A93;
+                        border-radius: 6px;      
+                        padding: 10px 12.5px;       
+                        text-align: center;
+                        cursor: pointer;
+                        margin-bottom: 32px;
+
+                        &::-webkit-inner-spin-button {
+                            -webkit-appearance: none;
+                            margin: 0;
+                        }
+
+                        &::-webkit-inner-spin-button {
+                            -webkit-appearance: none;
+                            margin: 0;
+                        }
+                        
+                    }
+                }
+
+                & #rooms-select {
+                    text-align: start;
                 }
             }
         }

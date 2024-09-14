@@ -1,9 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import styles from '../styles/filter.scss';
+import userEvent from '@testing-library/user-event';
 
 
 const Filter = () => {
+    const [state, setState] = useState({
+        region: null,
+        minPrice: null,
+        maxPrice: null,
+        rooms: null
+    });
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -13,27 +20,38 @@ const Filter = () => {
     const [isRoomsActive, setIsRoomsActive] = useState(false);
     const [minPrice, setMinPrice] = useState('');
     const [maxPrice, setMaxPrice] = useState('');
+    const [minArea, setMinArea] = useState('');
+    const [maxArea, setMaxArea] = useState('');
+    const [rooms, setRooms] = useState('');
 
     const regionSelectRef = useRef(null);
+    const regionLabelRef = useRef(null);
     const priceRangeRef = useRef(null);
+    const priceLabelRef = useRef(null);
     const minPriceInputRef = useRef(null);
     const maxPriceInputRef = useRef(null);
     const priceErrorRef = useRef(null);
-    // TODO other menu refs
+    const areaRangeRef = useRef(null);
+    const areaLabelRef = useRef(null);
+    const minAreaInputRef = useRef(null);
+    const maxAreaInputRef = useRef(null);
+    const areaErrorRef = useRef(null);
+    const roomsSelectRef = useRef(null);
+    const roomsLabelRef = useRef(null);
 
+    // REGION
     const handleClickOutsideRegionSelect = (event) => {
-        if (regionSelectRef.current && !regionSelectRef.current.contains(event.target)){
+        if (regionSelectRef.current && !regionSelectRef.current.contains(event.target) && !regionLabelRef.current.contains(event.target)){
             setIsRegionActive(false);
         }
     }
 
+    // PRICE
     const handleClickOutsidePriceRange = (event) => {
-        if (priceRangeRef.current && !priceRangeRef.current.contains(event.target)){
+        if (priceRangeRef.current && !priceRangeRef.current.contains(event.target) && !priceLabelRef.current.contains(event.target)){
             setIsPriceActive(false);
         }
     }
-
-    // TODO other outside clicks
 
     const handleMinPricePresetClick = (event) => {
         if (event.target.classList.contains('min-price-preset')){
@@ -69,17 +87,78 @@ const Filter = () => {
         setMaxPrice(event.target.value);
     };
 
+    // AREA
+    const handleClickOutsideAreaRange = (event) => {
+        if (areaRangeRef.current && !areaRangeRef.current.contains(event.target) && !areaLabelRef.current.contains(event.target)){
+            setIsAreaActive(false);
+        }
+    }
+
+    const handleMinAreaPresetClick = (event) => {
+        if (event.target.classList.contains('min-area-preset')){
+            setMinArea(event.target.innerText.replace("მ²", ""));
+        }
+    }
+
+    const handleMaxAreaPresetClick = (event) => {
+        if (event.target.classList.contains('max-area-preset')){
+            setMaxArea(event.target.innerText.replace("მ²", ""));
+        }
+    }
+
+    const handleMinAreaChange = (event) => {
+        setMinArea(event.target.value);
+    };
+
+    const handleMaxAreaChange = (event) => {
+        setMaxArea(event.target.value);
+    };
+
+    const validateAreaRange = () => {
+        if (Number(maxAreaInputRef.current.value.replace(",", "")) < Number(minAreaInputRef.current.value.replace(",", ""))){
+            console.log("შეცდომა");
+            areaErrorRef.current.classList.add("active");
+            minAreaInputRef.current.classList.add("error-input");
+            maxAreaInputRef.current.classList.add("error-input");
+        }
+        else {
+            areaErrorRef.current.classList.remove("active");
+            minAreaInputRef.current.classList.remove("error-input");
+            maxAreaInputRef.current.classList.remove("error-input");
+        }
+    }
+
+    // ROOMS
+    const handleClickOutsideRooms = (event) => {
+        if (roomsSelectRef.current && !roomsSelectRef.current.contains(event.target) && !roomsLabelRef.current.contains(event.target)){
+            setIsRoomsActive(false);
+        }
+    }
+
+    const handleRoomsChange = (event) => {
+        setRooms(event.target.value);
+    };
+
+
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutsideRegionSelect);
         document.addEventListener('mousedown', handleClickOutsidePriceRange);
         document.addEventListener('mousedown', handleMinPricePresetClick);
         document.addEventListener('mousedown', handleMaxPricePresetClick);
+        document.addEventListener('mousedown', handleMinAreaPresetClick);
+        document.addEventListener('mousedown', handleMaxAreaPresetClick);
+        document.addEventListener('mousedown', handleClickOutsideAreaRange);
+        document.addEventListener('mousedown', handleClickOutsideRooms);
     
         return () => {
             document.removeEventListener('mousedown', handleClickOutsideRegionSelect);
             document.removeEventListener('mousedown', handleClickOutsidePriceRange);
             document.removeEventListener('mousedown', handleMinPricePresetClick);
             document.removeEventListener('mousedown', handleMaxPricePresetClick);
+            document.removeEventListener('mousedown', handleMinAreaPresetClick);
+            document.removeEventListener('mousedown', handleMaxAreaPresetClick);
+            document.removeEventListener('mousedown', handleClickOutsideAreaRange);
+            document.removeEventListener('mousedown', handleClickOutsideRooms);
         };
       }, []);
 
@@ -139,7 +218,7 @@ const Filter = () => {
                     <li>
                         <div className='region'>
                             <div className='region-label' onClick={handleRegionToggle}>
-                                <h2>რეგიონი</h2>
+                                <h2 ref={regionLabelRef}>რეგიონი</h2>
                                 <img id='region-down-arrow' src='/images/down-icon.svg' className={`box ${isRegionActive ? 'active' : ''}`}/>
                                 <img id='region-up-arrow'src='/images/up-icon.svg' className={`box ${isRegionActive ? 'active' : ''}`}/>
                             </div>
@@ -168,7 +247,7 @@ const Filter = () => {
                     <li>
                         <div className='price'>
                             <div className='price-label' onClick={handlePriceToggle}>
-                                <h2>საფასო კატეგორია</h2>
+                                <h2 ref={priceLabelRef}>საფასო კატეგორია</h2>
                                 <img id='price-down-arrow' src='/images/down-icon.svg' className={`box ${isPriceActive ? 'active' : ''}`}/>
                                 <img id='price-up-arrow'src='/images/up-icon.svg' className={`box ${isPriceActive ? 'active' : ''}`}/>
                             </div>
@@ -179,6 +258,7 @@ const Filter = () => {
                                         <div className='price-input-wrapper'>
                                             <input id='min-price' name='min-price' placeholder='დან' value={minPrice} ref={minPriceInputRef} onChange={handleMinPriceChange}/>
                                         </div>
+                                        <h4 id='price-error' ref={priceErrorRef}>ჩაწერეთ ვალიდური მონაცემები</h4>
                                         <h3>მინ. ფასი</h3>
                                         <ul>
                                             <li className='min-price-preset'>50,000 ₾</li>
@@ -203,7 +283,6 @@ const Filter = () => {
                                     </div>
                                 </div>
                                 <div className='price-range-btn-holder'>
-                                    <h4 id='price-error' ref={priceErrorRef}>მინიმალური მნიშვნელობა არ<br /> უნდა იყოს მაქსიმალურზე მეტი</h4>
                                     <button id='price-range-btn' className='select-btn' onClick={validatePriceRange}>არჩევა</button>
                                 </div>
                             </div>
@@ -214,27 +293,62 @@ const Filter = () => {
                     <li>
                         <div className='area'>
                             <div className='area-label' onClick={handleAreaToggle}>
-                                <h2>ფართობი</h2>
+                                <h2 ref={areaLabelRef}>ფართობი</h2>
                                 <img id='area-down-arrow' src='/images/down-icon.svg' className={`box ${isAreaActive ? 'active' : ''}`}/>
                                 <img id='area-up-arrow'src='/images/up-icon.svg' className={`box ${isAreaActive ? 'active' : ''}`}/>
                             </div>
-                            <input type='range' id='area-slider' name='area-slider' min='0' max='10000' className={`box ${isAreaActive ? 'active' : ''}`}/>
+                            <div id='area-range' ref={areaRangeRef} className={`box ${isAreaActive ? 'active' : ''}`}>
+                                <h2>ფართობის მიხედვით</h2>
+                                <div id='area-presets'>
+                                    <div id='min-preset'>
+                                        <div className='area-input-wrapper'>
+                                            <input id='min-area' name='min-area' placeholder='დან' value={minArea} ref={minAreaInputRef} onChange={handleMinAreaChange}/>
+                                        </div>
+                                        <h4 id='area-error' ref={areaErrorRef}>ჩაწერეთ ვალიდური მონაცემები</h4>
+                                        <h3>მინ. მ²</h3>
+                                        <ul>
+                                            <li className='min-area-preset'>45 მ²</li>
+                                            <li className='min-area-preset'>50 მ²</li>
+                                            <li className='min-area-preset'>70 მ²</li>
+                                            <li className='min-area-preset'>100 მ²</li>
+                                            <li className='min-area-preset'>120 მ²</li>
+                                        </ul>
+                                    </div>
+                                    <div id='max-preset'>
+                                        <div className='area-input-wrapper'>
+                                            <input id='max-area' name='max-area' placeholder='მდე' value={maxArea} ref={maxAreaInputRef} onChange={handleMaxAreaChange}/>
+                                        </div>
+                                        <h3>მაქს. მ²</h3>
+                                        <ul>
+                                            <li className='max-area-preset'>45 მ²</li>
+                                            <li className='max-area-preset'>50 მ²</li>
+                                            <li className='max-area-preset'>70 მ²</li>
+                                            <li className='max-area-preset'>100 მ²</li>
+                                            <li className='max-area-preset'>120 მ²</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div className='price-range-btn-holder'>
+                                    <button id='area-range-btn' className='select-btn' onClick={validateAreaRange}>არჩევა</button>
+                                </div>
+                            </div>
                         </div>
                     </li>
                     <li>
                         <div className='rooms'>
                             <div className='rooms-label' onClick={handleRoomsToggle}>
-                                <h2>საძინებლების რაოდენობა</h2>
+                                <h2 ref={roomsLabelRef}>საძინებლების რაოდენობა</h2>
                                 <img id='rooms-down-arrow' src='/images/down-icon.svg' className={`box ${isRoomsActive ? 'active' : ''}`}/>
                                 <img id='rooms-up-arrow'src='/images/up-icon.svg' className={`box ${isRoomsActive ? 'active' : ''}`}/>
                             </div>
-                            <select id="rooms-select" name='rooms-select' className={`box ${isRoomsActive ? 'active' : ''}`}>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5+">5+</option>
-                            </select>
+                            <div id="rooms-select" ref={roomsSelectRef} name='rooms-select' className={`box ${isRoomsActive ? 'active' : ''}`}>
+                                <h2>საძინებლების რაოდენობა</h2>
+                                <input type='number' id='rooms-input' name='rooms-input' min="1" max="50" defaultValue="1" onChange={handleRoomsChange}/>
+                                <div className='rooms-select-btn-holder'>
+                                    <button id='rooms-select-btn' className='select-btn'>არჩევა</button>
+                                </div>
+                            </div>
+                            
                         </div>
                     </li>
                 </ul>
