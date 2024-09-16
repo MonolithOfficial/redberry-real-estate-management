@@ -5,23 +5,23 @@ import userEvent from '@testing-library/user-event';
 import TagBar from './tag-bar';
 
 
-const Filter = () => {
+const Filter = ({ filterState, updateFilterState }) => {
     // მონაცემების შენახვის ლოგიკა
-    const [state, setState] = useState(() => {
-        const cachedState = localStorage.getItem('cachedState');
-        return cachedState ? JSON.parse(cachedState) : {
-            region: [],
-            minPrice: null,
-            maxPrice: null,
-            minArea: null,
-            maxArea: null,
-            rooms: null
-        };
-    });
+    // const [state, setState] = useState(() => {
+    //     const cachedState = localStorage.getItem('cachedState');
+    //     return cachedState ? JSON.parse(cachedState) : {
+    //         region: [],
+    //         minPrice: null,
+    //         maxPrice: null,
+    //         minArea: null,
+    //         maxArea: null,
+    //         rooms: null
+    //     };
+    // });
 
     // შვილობილი კომპონენტიდან სთეითის მოდიფიცირების ლოგიკა
     const removeStateProperty = (property) => {
-        setState(prevState => {
+        updateFilterState(prevState => {
             let updatedValue;
             switch (property) {
               case 'region':
@@ -37,7 +37,7 @@ const Filter = () => {
 
     // სპეციფიური რეგიონის ამოშლა ფილტრიდან
     const removeRegion = (regionToRemove) => {
-        setState(prevState => ({
+        updateFilterState(prevState => ({
           ...prevState,
           region: prevState.region.filter(region => region !== regionToRemove)
         }));
@@ -85,7 +85,7 @@ const Filter = () => {
                 checkedRegionLabels.push(label.textContent.trim());
             }
         });
-        setState(prevState => ({
+        updateFilterState(prevState => ({
             ...prevState,
             region: checkedRegionLabels,
         }));
@@ -119,7 +119,7 @@ const Filter = () => {
             maxPriceInputRef.current.classList.add("error-input");
         }
         else {
-            setState(prevState => ({
+            updateFilterState(prevState => ({
                 ...prevState,
                 minPrice: minPriceInputRef.current.value,
                 maxPrice: maxPriceInputRef.current.value
@@ -158,7 +158,7 @@ const Filter = () => {
             maxAreaInputRef.current.classList.add("error-input");
         }
         else {
-            setState(prevState => ({
+            updateFilterState(prevState => ({
                 ...prevState,
                 minArea: minAreaInputRef.current.value,
                 maxArea: maxAreaInputRef.current.value
@@ -178,7 +178,7 @@ const Filter = () => {
     }
 
     const validateRooms = () => {
-        setState(prevState => ({
+        updateFilterState(prevState => ({
             ...prevState,
             rooms: roomsInputRef.current.value
         }));
@@ -187,8 +187,8 @@ const Filter = () => {
 
     // მონაცემების შენახვის ლოგიკა
     useEffect(() => {
-        localStorage.setItem('cachedState', JSON.stringify(state));
-    }, [state]);
+        localStorage.setItem('cachedState', JSON.stringify(filterState));
+    }, [filterState]);
 
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutsideRegionSelect);
@@ -402,7 +402,7 @@ const Filter = () => {
                         </div>
                     </li>
                 </ul>
-                <TagBar removeStateProperty={removeStateProperty} removeRegion={removeRegion} state={state}/>
+                <TagBar removeStateProperty={removeStateProperty} removeRegion={removeRegion} state={filterState}/>
             </div>
             <div id='filter-buttons'>
                 <div id='add-listing' className='button'>

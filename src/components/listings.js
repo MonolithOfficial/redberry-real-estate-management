@@ -5,6 +5,23 @@ import Filter from './filter';
 import styles from '../styles/listings.scss';
 
 const Listings = () => {
+    const [filterState, setFilterState] = useState(() => {
+        const cachedState = localStorage.getItem('cachedState');
+        return cachedState ? JSON.parse(cachedState) : {
+            region: [],
+            minPrice: null,
+            maxPrice: null,
+            minArea: null,
+            maxArea: null,
+            rooms: null
+        };
+    });
+
+    const updateFilterState = (newFilterState) => {
+        setFilterState(newFilterState);
+        console.log(filterState);
+    };
+
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -40,7 +57,7 @@ const Listings = () => {
 
     return (
         <main id='listings-page'>
-            <Filter />
+            <Filter filterState={filterState} updateFilterState={updateFilterState}/>
             <div id='listings-holder'>
                 {data.map((listing, index) => (
                 <ListingCard key={index}

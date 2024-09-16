@@ -37,6 +37,7 @@
             & #price-range, #region-select, #area-range, #rooms-select {
                 display: none; 
                 background-color: #FFFFFF; 
+                z-index: 2;
             }
 
             .price, .region, .area, .rooms {
