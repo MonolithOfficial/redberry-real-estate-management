@@ -6,19 +6,6 @@ import TagBar from './tag-bar';
 
 
 const Filter = ({ filterState, updateFilterState }) => {
-    // მონაცემების შენახვის ლოგიკა
-    // const [state, setState] = useState(() => {
-    //     const cachedState = localStorage.getItem('cachedState');
-    //     return cachedState ? JSON.parse(cachedState) : {
-    //         region: [],
-    //         minPrice: null,
-    //         maxPrice: null,
-    //         minArea: null,
-    //         maxArea: null,
-    //         rooms: null
-    //     };
-    // });
-
     // შვილობილი კომპონენტიდან სთეითის მოდიფიცირების ლოგიკა
     const removeStateProperty = (property) => {
         updateFilterState(prevState => {
@@ -28,7 +15,7 @@ const Filter = ({ filterState, updateFilterState }) => {
                 updatedValue = [];
                 break;
               default:
-                updatedValue = '';
+                updatedValue = null;
                 break;
             }
             return { ...prevState, [property]: updatedValue };
@@ -119,11 +106,15 @@ const Filter = ({ filterState, updateFilterState }) => {
             maxPriceInputRef.current.classList.add("error-input");
         }
         else {
+            const minPrice = minPriceInputRef.current.value.trim();
+            const maxPrice = maxPriceInputRef.current.value.trim();
+
             updateFilterState(prevState => ({
                 ...prevState,
-                minPrice: minPriceInputRef.current.value.replace(",", ""),
-                maxPrice: maxPriceInputRef.current.value.replace(",", "")
+                minPrice: minPrice === "" ? null : minPrice.replace(",", ""),
+                maxPrice: maxPrice === "" ? null : maxPrice.replace(",", "")
             }));
+            
             priceErrorRef.current.classList.remove("active");
             minPriceInputRef.current.classList.remove("error-input");
             maxPriceInputRef.current.classList.remove("error-input");

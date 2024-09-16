@@ -16,15 +16,14 @@ const Listings = () => {
             rooms: null
         };
     });
-
-    const updateFilterState = (newFilterState) => {
-        setFilterState(newFilterState);
-    };
-
     const [data, setData] = useState(null);
     const [filteredData, setFilteredData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    const updateFilterState = (newFilterState) => {
+        setFilterState(newFilterState);
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -53,11 +52,11 @@ const Listings = () => {
                 console.log(listing.price);
                 console.log(filterState.minPrice);
                 return (
-                    (Number(listing.price) >= Number(filterState.minPrice)) &&
-                    (Number(listing.price) <= Number(filterState.maxPrice)) &&
-                    (Number(listing.area) >= Number(filterState.minArea)) &&
-                    (Number(listing.area) <= Number(filterState.maxArea)) &&
-                    (Number(listing.bedrooms) === Number(filterState.rooms)) &&
+                    (filterState.minPrice === null || Number(listing.price) >= Number(filterState.minPrice)) &&
+                    (filterState.maxPrice === null || Number(listing.price) <= Number(filterState.maxPrice)) &&
+                    (filterState.minArea === null || Number(listing.area) >= Number(filterState.minArea)) &&
+                    (filterState.maxArea === null || Number(listing.area) <= Number(filterState.maxArea)) &&
+                    (filterState.rooms === null || Number(listing.bedrooms) === Number(filterState.rooms)) &&
                     (filterState.region.length === 0 || filterState.region.includes(listing.city.region.name))
                 );
             });
@@ -82,7 +81,7 @@ const Listings = () => {
             <Filter filterState={filterState} updateFilterState={updateFilterState}/>
             <div id='listings-holder'>
                 {filteredData.length === 0 ? (
-                    <h3>Loading</h3>
+                    <p id='not-found-msg'>აღნიშნული მონაცემებით განცხადება არ იძებნება</p>
                 ) : (
                     filteredData.map((listing, index) => (
                         <ListingCard
@@ -95,6 +94,7 @@ const Listings = () => {
                             price={listing.price}
                             image={listing.image}
                             isRental={listing.isRental}
+                            id={listing.id}
                         />
                     ))
                 )}

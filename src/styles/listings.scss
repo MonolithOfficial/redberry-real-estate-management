@@ -5,6 +5,14 @@
     row-gap: 20px;
     padding: 20px 162px 20px 162px;
 
+    & #not-found-msg {
+        font-size: 20px;
+        line-height: 24px;
+        font-weight: 400;
+        color: #021526CC;
+        position: absolute;
+    }
+
     & .listing-card {
         width: 384px;
         height: 455px;

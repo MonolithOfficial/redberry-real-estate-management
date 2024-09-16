@@ -1,8 +1,15 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const ListingCard = ({ address, area, bedrooms, city, zipCode, price, image, isRental }) => {
+const ListingCard = ({ address, area, bedrooms, city, zipCode, price, image, isRental, id }) => {
+
+    const navigate = useNavigate();
+    const handleRouting = (id) => {
+        navigate(`/listing/${id}`);
+    };
+
     return (
-      <div className='listing-card'>
+      <div className='listing-card' onClick={() => handleRouting(id)}>
         <div className='thumbnail'>
             <img src={image} />
         </div>

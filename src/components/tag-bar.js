@@ -16,18 +16,18 @@ const TagBar = ({removeStateProperty, removeRegion, state}) => {
     const renderPriceTag = () => {
         const { minPrice, maxPrice } = state;
     
-        if (minPrice.trim() === '' && maxPrice.trim() === '') {
+        if (minPrice === null && maxPrice === null) {
           return null;
         }
     
-        if (minPrice.trim() !== '' && maxPrice.trim() === '') {
+        if (minPrice !== null && maxPrice === null) {
           return <li className='filter-tag'><h4>{minPrice} - ∞</h4><div onClick={() => {
             handleParentStateRemoveProperty('minPrice');
             handleParentStateRemoveProperty('maxPrice');
         }}>{cross}</div></li>;
         }
     
-        if (minPrice.trim() === '' && maxPrice.trim() !== '') {
+        if (minPrice.trim() === '' && maxPrice !== null) {
           return <li className='filter-tag'><h4>∞ - {maxPrice}</h4><div onClick={() => {
             handleParentStateRemoveProperty('minPrice');
             handleParentStateRemoveProperty('maxPrice');
@@ -43,18 +43,18 @@ const TagBar = ({removeStateProperty, removeRegion, state}) => {
     const renderAreaTag = () => {
         const { minArea, maxArea } = state;
     
-        if (minArea.trim() === '' && maxArea.trim() === '') {
+        if (minArea === '' && maxArea === null) {
           return null;
         }
     
-        if (minArea.trim() !== '' && maxArea.trim() === '') {
+        if (minArea !== null && maxArea === null) {
           return <li className='filter-tag'><h4>{minArea} - ∞</h4><div onClick={() => {
             handleParentStateRemoveProperty('minArea');
             handleParentStateRemoveProperty('maxArea');
         }}>{cross}</div></li>;
         }
     
-        if (minArea.trim() === '' && maxArea.trim() !== '') {
+        if (minArea === null && maxArea.trim() !== '') {
           return <li className='filter-tag'><h4>∞ - {maxArea}</h4><div onClick={() => {
             handleParentStateRemoveProperty('minArea');
             handleParentStateRemoveProperty('maxArea');
@@ -70,7 +70,7 @@ const TagBar = ({removeStateProperty, removeRegion, state}) => {
     const renderRoomsTag = () => {
         const { rooms } = state;
     
-        if (rooms.trim() === '') {
+        if (rooms === null) {
           return null;
         }
     
