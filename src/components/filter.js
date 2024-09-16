@@ -85,8 +85,8 @@ const Filter = ({ filterState, updateFilterState }) => {
                 checkedRegionLabels.push(label.textContent.trim());
             }
         });
-        updateFilterState(prevState => ({
-            ...prevState,
+        updateFilterState(({
+            ...filterState,
             region: checkedRegionLabels,
         }));
         setIsRegionActive(false);
@@ -121,8 +121,8 @@ const Filter = ({ filterState, updateFilterState }) => {
         else {
             updateFilterState(prevState => ({
                 ...prevState,
-                minPrice: minPriceInputRef.current.value,
-                maxPrice: maxPriceInputRef.current.value
+                minPrice: minPriceInputRef.current.value.replace(",", ""),
+                maxPrice: maxPriceInputRef.current.value.replace(",", "")
             }));
             priceErrorRef.current.classList.remove("active");
             minPriceInputRef.current.classList.remove("error-input");
