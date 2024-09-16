@@ -249,7 +249,6 @@ const Filter = () => {
                     // }
                 });
                 setData(response.data);
-                console.log(response);
               } catch (error) {
                 setError(error);
               } finally {
@@ -261,7 +260,7 @@ const Filter = () => {
       }, 
     []);
 
-    console.log(state);
+    // console.log(state);
 
     return (
         <div className='filter-holder'>

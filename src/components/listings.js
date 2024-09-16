@@ -1,5 +1,8 @@
 import React, { useState, useEffect }  from 'react';
 import axios from 'axios';
+import ListingCard from './listing-card';
+import Filter from './filter';
+import styles from '../styles/listings.scss';
 
 const Listings = () => {
     const [data, setData] = useState(null);
@@ -34,9 +37,25 @@ const Listings = () => {
     if (error) {
         return <div>Error: {error.message}</div>;
     }
-    
+
     return (
-        <h1>LISTINGS</h1>
+        <main id='listings-page'>
+            <Filter />
+            <div id='listings-holder'>
+                {data.map((listing, index) => (
+                <ListingCard key={index}
+                address={listing.address}
+                area={listing.area}
+                bedrooms={listing.bedrooms}
+                city={listing.city.name}
+                zipCode={listing.zip_code}
+                price={listing.price}
+                image={listing.image}
+                isRental={listing.isRental}
+                />
+                ))}
+            </div>
+        </main>
     );
 };
 

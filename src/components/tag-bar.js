@@ -2,7 +2,6 @@ import React from 'react';
 import styles from '../styles/tag-bar.scss';
 
 const TagBar = ({removeStateProperty, removeRegion, state}) => {
-    console.log("TAGBAR" + state.region);
     const cross = (
         <svg className='cross' width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M10.5 4L3.5 11" stroke="#354451" stroke-linecap="round" stroke-linejoin="round"/>
