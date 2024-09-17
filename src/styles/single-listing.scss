@@ -1,0 +1,185 @@
+#listing-page {
+    display: flex;
+    flex-direction: column;
+    padding-left: 162px;
+    padding-right: 167px;
+
+    & #back-button-holder {
+        display: flex;
+        flex-direction: row;
+        justify-items: start;
+        margin-top: 64px;
+        margin-bottom: 29px;
+    }
+
+    & #listing-info-holder {
+        display: flex;
+        flex-direction: column;
+
+        & #listing-info {
+            display: flex;
+            flex-direction: row;
+            column-gap: 68px;
+
+            & .picture {
+                width: 839px;
+                height: 670px;
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: end;
+
+                & #publication-date {
+                    margin-top: 10px;
+                    margin-bottom: 14px;
+                    color: #808A93;
+                    font-size: 16px;
+                    font-weight: 400;
+                    line-height: 19.2px;
+                }
+
+                & .is-rental {
+                    position: absolute;
+                    top: 41px;
+                    left: 41px;
+                    color: #FFFFFF;
+                    font-size: 12px;
+                    line-height: 14.4px;
+                    background-color: rgba(2, 21, 38, 0.5);
+                    padding: 6px 18px;
+                    border-radius: 15px;
+                }
+
+                & img {
+                    width: 100%;
+                    height: 100%;
+                    border-top-left-radius: 14px;
+                    border-top-right-radius: 14px;
+                }
+            }
+
+            & .info {
+                display: flex;
+                flex-direction: column;
+                padding: 30px 0px 0px 0px;
+
+                & h2, h3, h4, p {
+                    margin: 0;
+                }
+
+                & .price {
+                    font-size: 48px;
+                    font-weight: 700;
+                    margin-bottom: 24px;
+                    line-height: 57.6px;
+                    color: #021526;
+                }
+
+                & .metric {
+                    display: flex;
+                    flex-direction: row;
+                    margin-bottom: 16px;
+                    align-items: center;
+                    column-gap: 7px;
+                    
+                    & h2 {
+                        font-size: 24px;
+                        font-weight: 400;
+                        line-height: 28.8px;
+                        color: #808A93;
+                    }
+                }
+
+                & .description {
+                    margin-top: 24px;
+                    margin-bottom: 50px;
+                    text-align: start;
+                    font-size: 16px;
+                    line-height: 26px;
+                    font-weight: 400;
+                    color: #808A93;
+                }
+
+                & #agent-info {
+                    display: flex;
+                    flex-direction: column;
+                    padding: 24px 20px;
+                    border: 1px solid #DBDBDB;
+                    border-radius: 8px;
+                    height: 124px;
+                    width: 463px;
+
+                    & .thumb-name-holder {
+                        display: flex;
+                        flex-direction: row;
+                        column-gap: 14px;
+                        align-items: center;
+
+                        & .thumb-holder {
+                            width: 72px;
+                            height: 72px;
+        
+                            & img {
+                                width: 100%;
+                                height: 100%;
+                                border-radius: 100px;
+                            }
+                        }
+
+                        & .name-holder {
+                            text-align: start;
+
+                            & .name {
+                                font-size: 16px;
+                                font-weight: 400;
+                                line-height: 19.2px;
+                                color: #021526;
+                                margin-bottom: 4px;
+                            }
+
+                            & .agent {
+                                font-size: 14px;
+                                font-weight: 400;
+                                line-height: 16.8px;
+                                color: #676E76;
+                            }
+                        }
+                    }
+
+                    & .contacts {
+                        margin-top: 16px;
+                        text-align: start;
+
+                        & .agent-contact {
+                            display: flex;
+                            flex-direction: row;
+                            column-gap: 5px;
+                            align-items: center;
+
+                            & p {
+                                margin-bottom: 4px;
+                                font-size: 14px;
+                                font-weight: 400;
+                                line-height: 16.8px;
+                                color: #808A93;
+                            }
+                        }
+                    }
+                }
+
+                & #delete-listing {
+                    background-color: #FFFFFF;
+                    border: 1px solid #676E76;
+                    border-radius: 8px;
+                    width: 131px;
+                    font-size: 12px;
+                    font-weight: 500;
+                    line-height: 14.4px;
+                    color: #676E76;
+                    padding: 10px;
+                    margin-top: 20px;
+                }
+            }
+        }
+    }
+}
