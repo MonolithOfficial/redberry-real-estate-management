@@ -4,7 +4,9 @@ import styles from '../styles/header.scss';
 const Header = () => {
     return (
       <header id="header">
-        <img id="logo" src='/images/header-logo.png'/>
+        <a href='/'>
+          <img id="logo" src='/images/header-logo.png'/>
+        </a>
       </header>
     );
   };
