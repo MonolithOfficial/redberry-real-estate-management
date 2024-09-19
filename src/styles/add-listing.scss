@@ -12,6 +12,26 @@
             color: #333;
         }
 
+        .form-input {
+            outline: none;
+        }
+
+        & .error-holder {
+            color: #021526;
+        }
+
+        & .correct {
+            color: #45A849;
+        }
+
+        & .error-input {
+            border: 1px solid #F93B1D;
+        }
+
+        & .validation-error {
+            color: #F93B1D;
+        }
+
         .form-group {
             margin-bottom: 15px;
 
@@ -21,12 +41,12 @@
                 color: #333;
             }
 
-            input[type="text"], input[type="email"], textarea, select {
-                width: 100%;
-                padding: 10px;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-            }
+            // input[type="text"], input[type="email"], textarea, select {
+            //     width: 100%;
+            //     padding: 10px;
+            //     border: 1px solid #ccc;
+            //     border-radius: 4px;
+            // }
 
             input[type="radio"], input[type="checkbox"] {
                 margin-right: 5px;
@@ -35,6 +55,10 @@
             input[type="file"] {
                 display: block;
                 margin-top: 5px;
+            }
+
+            & .disabled {
+                display: none;
             }
         }
 

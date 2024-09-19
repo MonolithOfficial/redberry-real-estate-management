@@ -27,7 +27,7 @@ const TagBar = ({removeStateProperty, removeRegion, state}) => {
         }}>{cross}</div></li>;
         }
     
-        if (minPrice.trim() === '' && maxPrice !== null) {
+        if (minPrice === null && maxPrice !== null) {
           return <li className='filter-tag'><h4>∞ - {maxPrice}</h4><div onClick={() => {
             handleParentStateRemoveProperty('minPrice');
             handleParentStateRemoveProperty('maxPrice');
@@ -54,7 +54,7 @@ const TagBar = ({removeStateProperty, removeRegion, state}) => {
         }}>{cross}</div></li>;
         }
     
-        if (minArea === null && maxArea.trim() !== '') {
+        if (minArea === null && maxArea !== null) {
           return <li className='filter-tag'><h4>∞ - {maxArea}</h4><div onClick={() => {
             handleParentStateRemoveProperty('minArea');
             handleParentStateRemoveProperty('maxArea');
