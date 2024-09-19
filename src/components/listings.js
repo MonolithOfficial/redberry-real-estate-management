@@ -3,6 +3,7 @@ import axios from 'axios';
 import ListingCard from './listing-card';
 import Filter from './filter';
 import styles from '../styles/listings.scss';
+import { useNavigate } from 'react-router-dom';
 
 const Listings = () => {
     const [filterState, setFilterState] = useState(() => {
@@ -20,9 +21,14 @@ const Listings = () => {
     const [filteredData, setFilteredData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
+    const navigate = useNavigate();
+    
     const updateFilterState = (newFilterState) => {
         setFilterState(newFilterState);
+    };
+
+    const handleRoutingToAddListingPage= () => {
+        navigate(`/add-listing`);
     };
 
     useEffect(() => {
@@ -78,7 +84,7 @@ const Listings = () => {
 
     return (
         <main id='listings-page'>
-            <Filter filterState={filterState} updateFilterState={updateFilterState}/>
+            <Filter filterState={filterState} updateFilterState={updateFilterState} handleRoutingToAddListingPage={handleRoutingToAddListingPage}/>
             <div id='listings-holder'>
                 {filteredData.length === 0 ? (
                     <p id='not-found-msg'>აღნიშნული მონაცემებით განცხადება არ იძებნება</p>
