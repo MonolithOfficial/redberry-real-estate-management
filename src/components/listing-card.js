@@ -41,7 +41,7 @@ const ListingCard = ({ address, area, bedrooms, city, zipCode, price, image, isR
         <p className='is-rental'>
             {(
                 () => {
-                    if (isRental == 0){
+                    if (isRental === 0){
                         return "იყიდება";
                     }
                     return "ქირავდება";

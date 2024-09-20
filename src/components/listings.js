@@ -99,7 +99,7 @@ const Listings = () => {
                             zipCode={listing.zip_code}
                             price={listing.price}
                             image={listing.image}
-                            isRental={listing.isRental}
+                            isRental={listing.is_rental}
                             id={listing.id}
                         />
                     ))

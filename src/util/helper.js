@@ -15,3 +15,19 @@ export function checkIfFileLargerThanMegabyte(file){
     const megabyte = 1048576; // ზომა ბაიტებში
     return file.size > megabyte;
 }
+
+export function validateFileExtension(file) {
+    const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+    console.log(allowedExtensions.test(file.name))
+    return allowedExtensions.test(file.name);
+}
+
+export function isAnyInputEmpty(form) {
+    const inputs = form.querySelectorAll('input');
+    for (let input of inputs) {
+      if (input.value.trim() === '') {
+        return true;
+      }
+    }
+    return false;
+  };

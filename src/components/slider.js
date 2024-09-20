@@ -13,33 +13,15 @@ const CustomSlider = ({ items }) => {
         dots: true,
         infinite: true,
         speed: 500,
-        slidesToShow: 4,
-        slidesToScroll: 4,
+        slidesToShow: 3,
+        slidesToScroll: 1,
         arrows: true,
+        adaptiveHeight: true,
     };
     return (
         <div className="slider-container">
             <Slider {...settings}>
                 {items.map((item, index) => (
-                    // <div key={index} className='slider-card'>
-                    //     <img src={item.image}/>
-                    // </div>
-                    // <SliderCard
-                    //     key={index}
-                    //     address={item.address}
-                    //     area={item.area}
-                    //     bedrooms={item.bedrooms}
-                    //     city={item.city.name}
-                    //     zipCode={item.zip_code}
-                    //     price={item.price}
-                    //     image={item.image}
-                    //     isRental={item.isRental}
-                    //     id={item.id}
-                    // />
-                    // <div key={index} className='slider-card' onClick={() => handleRouting(item.id)}>
-                    //     <img src={item.image} />
-                        
-                    // </div>
                     <div className='slider-card' onClick={() => handleRouting(item.id)}>
                         <div className='thumbnail'>
                             <img src={item.image} />
