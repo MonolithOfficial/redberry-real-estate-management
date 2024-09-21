@@ -164,8 +164,28 @@
                             top: 50%;
                             left: 50%;
                             transform: translate(-50%, -50%);
-                            z-index: 1;
+                            z-index: 3;
                             border: none;
+    
+                            & img {
+                                height: 100%;
+                                width: 100%;
+                                border-radius: 4px;
+                            }
+    
+                            & svg {
+                                height: 24px;
+                                width: 24px;
+                                position: absolute;
+                                bottom: -12px;
+                                right: -12px;
+                                z-index: 9999 !important;
+                                cursor: pointer;
+                                
+                                &:hover {
+                                    color: #F93B1D;
+                                }
+                            }
                         }
                         
                         & label {

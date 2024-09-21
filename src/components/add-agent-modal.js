@@ -50,6 +50,8 @@ const AddAgentModal = ({ isOpen, handleModalClose }) => {
   const phoneErrorRef = useRef(null);
   const imageErrorRef = useRef(null);
   const imagePreviewRef = useRef(null);
+  const imagePreviewHolderRef = useRef(null);
+  const deleteImageRef = useRef(null);
 
   const handleClickOutsideAddAgentModal = (event) => {
     if (addAgentModalRef.current && !addAgentModalRef.current.contains(event.target)) {
@@ -170,6 +172,8 @@ const AddAgentModal = ({ isOpen, handleModalClose }) => {
         imageText: "მაქსიმუმ 1mb"
       }));
       imagePreviewRef.current.style.display = "block";
+      deleteImageRef.current.style.display = "block";
+      imagePreviewHolderRef.current.style.zIndex = "3";
     }
     else {
       setState(prevState => ({
@@ -195,8 +199,23 @@ const AddAgentModal = ({ isOpen, handleModalClose }) => {
         }));
         imagePreviewRef.current.style.display = "none";
       }
+      deleteImageRef.current.style.display = "none";
+      imagePreviewHolderRef.current.style.zIndex = "0";
     }
   }
+
+  const handleDeleteThumbnail = () => {
+    setState(prevState => ({
+        ...prevState,
+        image: null,
+    }));
+    setImagePreview(null);
+    localStorage.removeItem('cachedBase64AgentImage');
+    localStorage.removeItem('cachedAddAgentImageName');
+    imagePreviewRef.current.style.display = "none";
+    deleteImageRef.current.style.display = "none";
+    imagePreviewHolderRef.current.style.zIndex = "0";
+}
 
   const handleCancel = () => {
     localStorage.removeItem('cachedAddAgentState');
@@ -239,7 +258,7 @@ const AddAgentModal = ({ isOpen, handleModalClose }) => {
       alert("ჩაწერეთ ვალიდური მონაცემები");
       return;
     }
-    if (state.image === null){
+    if (state.image === null) {
       alert("ატვირთეთ სურათი");
       return;
     }
@@ -283,14 +302,14 @@ const AddAgentModal = ({ isOpen, handleModalClose }) => {
     const cachedBase64AgentImage = localStorage.getItem('cachedBase64AgentImage');
     const cachedAddAgentImageName = localStorage.getItem('cachedAddAgentImageName');
     if (cachedBase64AgentImage && cachedAddAgentImageName) {
-        const recoveredFile = base64ToFile(cachedBase64AgentImage, cachedAddAgentImageName);
-        setState(prevState => ({
-            ...prevState,
-            image: recoveredFile,
-        }));
-        setImagePreview(URL.createObjectURL(recoveredFile));
+      const recoveredFile = base64ToFile(cachedBase64AgentImage, cachedAddAgentImageName);
+      setState(prevState => ({
+        ...prevState,
+        image: recoveredFile,
+      }));
+      setImagePreview(URL.createObjectURL(recoveredFile));
     }
-}, []);
+  }, []);
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutsideAddAgentModal);
@@ -313,7 +332,12 @@ const AddAgentModal = ({ isOpen, handleModalClose }) => {
 
       previewImage.onerror = function () {
         this.style.display = 'none';
+        deleteImageRef.current.style.display = "none";
       };
+
+      if (state.image === null) {
+        deleteImageRef.current.style.display = "none";
+    }
     }
   }, [isOpen]);
 
@@ -374,7 +398,16 @@ const AddAgentModal = ({ isOpen, handleModalClose }) => {
                 <label for="image">ატვირთეთ ფოტო*</label>
                 <div className='file-upload-holder'>
                   <FileUploader handleChange={handleImageChange} name="image" required />
-                  <img className="image-preview" src={imagePreview} ref={imagePreviewRef} />
+                  <div className='image-preview' ref={imagePreviewHolderRef}>
+                    <img src={imagePreview} ref={imagePreviewRef} />
+                    <svg ref={deleteImageRef} onClick={() => handleDeleteThumbnail()} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="12" cy="12" r="11.5" fill="white" stroke="currentColor" />
+                      <path d="M6.75 8.5H7.91667H17.25" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+                      <path d="M16.0834 8.50033V16.667C16.0834 16.9764 15.9605 17.2732 15.7417 17.492C15.5229 17.7107 15.2262 17.8337 14.9167 17.8337H9.08341C8.774 17.8337 8.47725 17.7107 8.25846 17.492C8.03966 17.2732 7.91675 16.9764 7.91675 16.667V8.50033M9.66675 8.50033V7.33366C9.66675 7.02424 9.78966 6.72749 10.0085 6.5087C10.2272 6.28991 10.524 6.16699 10.8334 6.16699H13.1667C13.4762 6.16699 13.7729 6.28991 13.9917 6.5087C14.2105 6.72749 14.3334 7.02424 14.3334 7.33366V8.50033" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+                      <path d="M10.8333 11.417V14.917" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+                      <path d="M13.1667 11.417V14.917" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </div>
                   <img className="add-image" src="/images/plus.png" />
                 </div>
                 <div className={errorState.imageStyle} ref={imageErrorRef}>
