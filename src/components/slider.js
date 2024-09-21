@@ -54,7 +54,7 @@ const CustomSlider = ({ items }) => {
                         <p className='is-rental'>
                             {(
                                 () => {
-                                    if (item.isRental == 0){
+                                    if (item.is_rental === 0){
                                         return "იყიდება";
                                     }
                                     return "ქირავდება";

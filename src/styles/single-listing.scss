@@ -258,4 +258,17 @@
             }
         }
     }
+
+    & #recommendations-holder {
+        & h1 {
+            margin: 0;
+            margin-top: 67px;
+            margin-bottom: 52px;
+            text-align: start;
+            color: #021526;
+            font-size: 32px;
+            line-height: 38.4px;
+            font-weight: 500;
+        }
+    }
 }
