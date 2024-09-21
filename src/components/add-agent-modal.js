@@ -238,6 +238,10 @@ const AddAgentModal = ({ isOpen, handleModalClose }) => {
       alert("ჩაწერეთ ვალიდური მონაცემები");
       return;
     }
+    if (state.image === null){
+      alert("ატვირთეთ სურათი");
+      return;
+    }
     if (Object.values(errorState).some(value => value.includes('validation-error'))) {
       alert("ჩაწერეთ ვალიდური მონაცემები");
       return;

@@ -114,6 +114,7 @@
         border: 1px solid #DBDBDB;
         border-radius: 14px;
         position: relative;   
+        cursor: pointer;
         
         & p {
             margin: 0;
@@ -140,6 +141,7 @@
         & .parameters-holder {
             display: flex;
             flex-direction: row;
+            align-items: center;
             column-gap: 32px;
             padding: 0px 145px 22px 25px;
             color: #021526B2;
@@ -147,8 +149,7 @@
             & div {
                 display: flex;
                 flex-direction: row;
-                row-gap: 5px;
-                align-items: center;
+                column-gap: 5px;
             }
         }
 

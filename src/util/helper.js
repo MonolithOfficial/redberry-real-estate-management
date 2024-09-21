@@ -2,6 +2,10 @@ export function priceFormatterCommaSpace(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ', ');
 }
 
+export function priceFormatterSpace(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+}
+
 export function validateIfStringNonNumeric(string) {
     return /^[0-9]+$/.test(string);
 }
@@ -22,11 +26,8 @@ export function validateFileExtension(file) {
     return allowedExtensions.test(file.name);
 }
 
-export function isAnyInputEmpty(form, image) {
+export function isAnyInputEmpty(form) {
     const inputs = form.querySelectorAll('input');
-    if (image === null){
-        return false;
-    }
     for (let input of inputs) {
         if (input.type !== 'file' && input.value.trim() === '') {
             console.log(input);

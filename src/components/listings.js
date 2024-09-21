@@ -1,4 +1,4 @@
-import React, { useState, useEffect }  from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ListingCard from './listing-card';
 import Filter from './filter';
@@ -25,12 +25,12 @@ const Listings = () => {
     const [addAgentModalIsOpen, setAddAgentModalIsOpen] = useState(false);
 
     const navigate = useNavigate();
-    
+
     const updateFilterState = (newFilterState) => {
         setFilterState(newFilterState);
     };
 
-    const handleRoutingToAddListingPage= () => {
+    const handleRoutingToAddListingPage = () => {
         navigate(`/add-listing`);
     };
 
@@ -52,16 +52,16 @@ const Listings = () => {
                 });
                 setData(response.data);
                 console.log(data);
-              } catch (error) {
+            } catch (error) {
                 setError(error);
-              } finally {
+            } finally {
                 setLoading(false);
-              }
+            }
         };
-    
+
         fetchData();
-      }, 
-    []);
+    },
+        []);
 
     useEffect(() => {
         if (!loading) {
@@ -95,11 +95,11 @@ const Listings = () => {
 
     return (
         <main id='listings-page'>
-            <AddAgentModal isOpen={addAgentModalIsOpen} handleModalClose={handleModalClose}/>
+            <AddAgentModal isOpen={addAgentModalIsOpen} handleModalClose={handleModalClose} />
             <Filter filterState={filterState}
                 updateFilterState={updateFilterState}
                 handleRoutingToAddListingPage={handleRoutingToAddListingPage}
-                handleAddAgentModalOpen={handleModalOpen}/>
+                handleAddAgentModalOpen={handleModalOpen} />
             <div id='listings-holder'>
                 {filteredData.length === 0 ? (
                     <p id='not-found-msg'>აღნიშნული მონაცემებით განცხადება არ იძებნება</p>

@@ -107,9 +107,9 @@ $slick-opacity-not-active: 0.25 !default;
         right: -25px;
     }
     &:before {
-        content: $slick-prev-character;
+        content: url("../../public/images/prev.svg");
         [dir="rtl"] & {
-            content: $slick-next-character;
+            content: url("../../public/images/prev.svg");
         }
     }
 }
@@ -121,9 +121,9 @@ $slick-opacity-not-active: 0.25 !default;
         right: auto;
     }
     &:before {
-        content: $slick-next-character;
+        content: url("../../public/images/next.svg");
         [dir="rtl"] & {
-            content: $slick-prev-character;
+            content: url("../../public/images/next.svg");
         }
     }
 }

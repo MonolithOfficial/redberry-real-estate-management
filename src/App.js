@@ -9,16 +9,15 @@ import AddListing from './components/add-listing';
 
 function App() {
   return (
-    <div className="App">
-      <Router>
+    <Router>
+      <div className="App">
         <Routes>
           <Route path="/listing/:id" element={<SingleListing />} />
-          <Route path="/" element={<Listings />} />
+          <Route exact path="/" element={<Listings />} />
           <Route path="/add-listing" element={<AddListing />} />
         </Routes>
-      </Router>
-      
-    </div>
+      </div>
+    </Router>
   );
 }
 
