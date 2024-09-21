@@ -40,7 +40,7 @@ const SingleListing = () => {
         };
 
         fetchEstate();
-    },[id]);
+    }, [id]);
 
     useEffect(() => {
         const fetchSimilarEstates = async () => {
@@ -113,7 +113,7 @@ const SingleListing = () => {
     }
 
     const renderedSlider = filteredListings.length === 0 ? (
-        <h1>i aint rendered</h1>
+        <h1>Loading...</h1>
     ) : (
         <CustomSlider items={filteredListings} />
     )

@@ -1,5 +1,5 @@
 /* Slider */
-
+// ეს სტილი react-click ბიბლიოთეკიდან გადმოვიტანე და გადავაკეთე
 .slick-slider {
     position: relative;
     display: block;
@@ -14,6 +14,7 @@
     touch-action: pan-y;
     -webkit-tap-highlight-color: transparent;
 }
+
 .slick-list {
     position: relative;
     overflow: hidden;
@@ -30,6 +31,7 @@
         cursor: hand;
     }
 }
+
 .slick-slider .slick-track,
 .slick-slider .slick-list {
     -webkit-transform: translate3d(0, 0, 0);
@@ -61,22 +63,25 @@
         visibility: hidden;
     }
 
-    & > div {
+    &>div {
         box-sizing: border-box;
         padding-right: 20px;
     }
 
-    & > div:last-child {
+    &>div:last-child {
         padding-right: 0;
     }
 }
+
 .slick-slide {
     float: left;
     height: 100%;
     min-height: 1px;
+
     [dir="rtl"] & {
         float: right;
     }
+
     & img {
         border-top-left-radius: 14px;
         border-top-right-radius: 14px;
@@ -84,6 +89,7 @@
         width: 100%;
         display: block;
     }
+
     &.slick-loading img {
         display: none;
     }
@@ -113,9 +119,9 @@
         flex-direction: column;
         border: 1px solid #DBDBDB;
         border-radius: 14px;
-        position: relative;   
+        position: relative;
         cursor: pointer;
-        
+
         & p {
             margin: 0;
         }
@@ -166,6 +172,7 @@
         }
     }
 }
+
 .slick-arrow.slick-hidden {
     display: block;
 }

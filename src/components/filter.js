@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import styles from '../styles/filter.scss';
-import userEvent from '@testing-library/user-event';
 import TagBar from './tag-bar';
 
 

@@ -8,7 +8,7 @@
     background: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
-    align-items: center;  
+    align-items: center;
 
     & .add-agent-modal-content {
         width: 1009px;
@@ -41,7 +41,7 @@
                 flex-direction: row;
                 justify-content: end;
                 column-gap: 15px;
-        
+
                 & button {
                     padding: 10px 16px 10px 16px;
                     border-radius: 10px;
@@ -49,23 +49,23 @@
                     line-height: 19.2px;
                     font-weight: 500;
                 }
-        
+
                 & #cancel-btn {
                     background-color: #FFFFFF;
                     color: #F93B1D;
                     border: 1px solid #F93B1D;
-        
+
                     &:hover {
                         color: #FFFFFF;
                         background-color: #F93B1D;
                     }
                 }
-        
+
                 & #submit-btn {
                     background-color: #F93B1D;
                     color: #FFFFFF;
                     border: 1px solid #F93B1D;
-        
+
                     &:hover {
                         background-color: #DF3014;
                     }
@@ -76,15 +76,15 @@
                 & .error-holder {
                     color: #021526;
                 }
-        
+
                 & .correct {
                     color: #45A849;
                 }
-        
+
                 & .error-input {
                     border: 1px solid #F93B1D !important;
                 }
-        
+
                 & .validation-error {
                     color: #F93B1D;
                 }
@@ -110,43 +110,46 @@
                 }
 
                 & .agent-info {
-                    display: grid; 
+                    display: grid;
                     grid-template-columns: 1fr 1fr;
-                    grid-template-rows: 1fr 1fr; 
+                    grid-template-rows: 1fr 1fr;
                     gap: 20px;
-        
-                    & .name-input-holder, .surname-input-holder, .email-input-holder, .phone-input-holder {
+
+                    & .name-input-holder,
+                    .surname-input-holder,
+                    .email-input-holder,
+                    .phone-input-holder {
                         display: flex;
                         flex-direction: column;
                         row-gap: 5px;
-        
+
                         & .error-holder {
                             display: flex;
                             flex-direction: row;
                             align-items: center;
                             column-gap: 7px;
-        
+
                             & p {
                                 margin: 0;
                             }
                         }
                     }
                 }
-        
+
             }
 
             & .listing-thumbnail {
 
                 margin-top: 20px;
-    
+
                 & .image-input-holder {
                     display: flex;
                     flex-direction: column;
                     row-gap: 5px;
-                    
+
                     & .file-upload-holder {
                         position: relative;
-    
+
                         & .add-image {
                             position: absolute;
                             height: 24px;
@@ -156,7 +159,7 @@
                             transform: translate(-50%, -50%);
                             z-index: 0;
                         }
-    
+
                         & .image-preview {
                             position: absolute;
                             height: 100px;
@@ -166,13 +169,13 @@
                             transform: translate(-50%, -50%);
                             z-index: 3;
                             border: none;
-    
+
                             & img {
                                 height: 100%;
                                 width: 100%;
                                 border-radius: 4px;
                             }
-    
+
                             & svg {
                                 height: 24px;
                                 width: 24px;
@@ -181,40 +184,40 @@
                                 right: -12px;
                                 z-index: 9999 !important;
                                 cursor: pointer;
-                                
+
                                 &:hover {
                                     color: #F93B1D;
                                 }
                             }
                         }
-                        
+
                         & label {
                             max-width: 790px !important;
                             min-height: 120px !important;
                             height: 120px;
                             border: 1px dashed #2D3648 !important;
                             z-index: 2;
-    
+
                             & input {
                                 background-color: none;
                             }
-    
+
                             & span {
                                 display: none;
                             }
-    
+
                             & svg {
                                 display: none;
                             }
                         }
                     }
-    
+
                     & .error-holder {
                         display: flex;
                         flex-direction: row;
                         align-items: center;
                         column-gap: 7px;
-    
+
                         & p {
                             margin: 0;
                         }
