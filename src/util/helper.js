@@ -34,4 +34,9 @@ export function isAnyInputEmpty(form, image) {
         }
     }
     return false;
-  };
+};
+
+export function isValidPhoneNumber(string) {
+    const regex = /^5\d{8}$/;
+    return regex.test(string);
+}

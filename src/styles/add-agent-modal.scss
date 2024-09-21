@@ -1,0 +1,207 @@
+.add-agent-modal-overlay {
+    position: fixed;
+    z-index: 3;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+
+    & .add-agent-modal-content {
+        width: 1009px;
+        height: fit-content;
+        // padding: 105px;
+        background: white;
+        // padding: 6px 12px 0px 12px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        border-radius: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        & h1 {
+            font-size: 32px;
+            font-weight: 500;
+            line-height: 38.4px;
+            color: #021526;
+            margin: 0;
+            margin-bottom: 61px;
+        }
+
+        & .form-holder {
+            margin: 87px 105px;
+
+            & .add-agent-buttons {
+                margin-top: 90px;
+                display: flex;
+                flex-direction: row;
+                justify-content: end;
+                column-gap: 15px;
+        
+                & button {
+                    padding: 10px 16px 10px 16px;
+                    border-radius: 10px;
+                    font-size: 16px;
+                    line-height: 19.2px;
+                    font-weight: 500;
+                }
+        
+                & #cancel-btn {
+                    background-color: #FFFFFF;
+                    color: #F93B1D;
+                    border: 1px solid #F93B1D;
+        
+                    &:hover {
+                        color: #FFFFFF;
+                        background-color: #F93B1D;
+                    }
+                }
+        
+                & #submit-btn {
+                    background-color: #F93B1D;
+                    color: #FFFFFF;
+                    border: 1px solid #F93B1D;
+        
+                    &:hover {
+                        background-color: #DF3014;
+                    }
+                }
+            }
+
+            & #agent-info-form {
+                & .error-holder {
+                    color: #021526;
+                }
+        
+                & .correct {
+                    color: #45A849;
+                }
+        
+                & .error-input {
+                    border: 1px solid #F93B1D !important;
+                }
+        
+                & .validation-error {
+                    color: #F93B1D;
+                }
+
+                & input {
+                    font-family: 'FiraGo', sans-serif;
+                    padding: 11.5px 10px;
+                    border-radius: 6px;
+                    outline: none;
+                    border: 1px solid #808A93;
+                    font-size: 16px;
+                    font-weight: 400;
+                    line-height: 19.2px;
+                    color: #021526;
+                }
+
+                & label {
+                    font-size: 14px;
+                    font-weight: 500;
+                    line-height: 16.8px;
+                    color: #021526;
+                    text-align: start;
+                }
+
+                & .agent-info {
+                    display: grid; 
+                    grid-template-columns: 1fr 1fr;
+                    grid-template-rows: 1fr 1fr; 
+                    gap: 20px;
+        
+                    & .name-input-holder, .surname-input-holder, .email-input-holder, .phone-input-holder {
+                        display: flex;
+                        flex-direction: column;
+                        row-gap: 5px;
+        
+                        & .error-holder {
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            column-gap: 7px;
+        
+                            & p {
+                                margin: 0;
+                            }
+                        }
+                    }
+                }
+        
+            }
+
+            & .listing-thumbnail {
+
+                margin-top: 20px;
+    
+                & .image-input-holder {
+                    display: flex;
+                    flex-direction: column;
+                    row-gap: 5px;
+                    
+                    & .file-upload-holder {
+                        position: relative;
+    
+                        & .add-image {
+                            position: absolute;
+                            height: 24px;
+                            width: 24px;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            z-index: 0;
+                        }
+    
+                        & .image-preview {
+                            position: absolute;
+                            height: 100px;
+                            width: 100px;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            z-index: 1;
+                            border: none;
+                        }
+                        
+                        & label {
+                            max-width: 790px !important;
+                            min-height: 120px !important;
+                            height: 120px;
+                            border: 1px dashed #2D3648 !important;
+                            z-index: 2;
+    
+                            & input {
+                                background-color: none;
+                            }
+    
+                            & span {
+                                display: none;
+                            }
+    
+                            & svg {
+                                display: none;
+                            }
+                        }
+                    }
+    
+                    & .error-holder {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        column-gap: 7px;
+    
+                        & p {
+                            margin: 0;
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+}

@@ -98,7 +98,7 @@ const AddListing = () => {
 
     const handleAddressChange = (event) => {
         const eventValue = event.target.value;
-        if (eventValue.length >= 2){
+        if (eventValue.length >= 2) {
             setErrorState(prevState => ({
                 ...prevState,
                 addressStyle: "error-holder correct",
@@ -122,7 +122,7 @@ const AddListing = () => {
 
     const handleZipCodeChange = (event) => {
         const eventValue = event.target.value;
-        if (validateIfStringNonNumeric(eventValue)){
+        if (validateIfStringNonNumeric(eventValue)) {
             setErrorState(prevState => ({
                 ...prevState,
                 zipCodeStyle: "error-holder correct",
@@ -172,7 +172,7 @@ const AddListing = () => {
 
     const handlePriceChange = (event) => {
         const eventValue = event.target.value;
-        if (validateIfStringNonNumeric(eventValue)){
+        if (validateIfStringNonNumeric(eventValue)) {
             setState(prevState => ({
                 ...prevState,
                 price: Number(eventValue),
@@ -196,7 +196,7 @@ const AddListing = () => {
 
     const handleAreaChange = (event) => {
         const eventValue = event.target.value;
-        if (validateIfStringNonNumeric(eventValue)){
+        if (validateIfStringNonNumeric(eventValue)) {
             setErrorState(prevState => ({
                 ...prevState,
                 areaStyle: "error-holder correct",
@@ -220,7 +220,7 @@ const AddListing = () => {
 
     const handleRoomsChange = (event) => {
         const eventValue = event.target.value;
-        if (validateIfStringNonNumeric(eventValue)){
+        if (validateIfStringNonNumeric(eventValue)) {
             setErrorState(prevState => ({
                 ...prevState,
                 roomsStyle: "error-holder correct",
@@ -244,7 +244,7 @@ const AddListing = () => {
 
     const handleDesciptionChange = (event) => {
         const eventValue = event.target.value;
-        if (validateIfStringContainsMoreThanWords(eventValue, 5)){
+        if (validateIfStringContainsMoreThanWords(eventValue, 5)) {
             setErrorState(prevState => ({
                 ...prevState,
                 descriptionStyle: "error-holder correct",
@@ -269,7 +269,7 @@ const AddListing = () => {
     const handleImageChange = (file) => {
         const isLargerThanOneMb = checkIfFileLargerThanMegabyte(file);
         const isValidFile = validateFileExtension(file);
-        if (!isLargerThanOneMb && isValidFile){
+        if (!isLargerThanOneMb && isValidFile) {
             setState(prevState => ({
                 ...prevState,
                 image: file,
@@ -289,24 +289,26 @@ const AddListing = () => {
                 image: null,
             }));
             setImagePreview(null);
-            if (isLargerThanOneMb && isValidFile){
+            if (isLargerThanOneMb && isValidFile) {
                 setErrorState(prevState => ({
                     ...prevState,
                     imageStyle: "error-holder validation-error",
                     imageInputStyle: 'form-input error-input',
                     imageText: "ზომა აღემატება 1mb-ს"
                 }));
+                imagePreviewRef.current.style.display = "none";
             }
-            if (!isLargerThanOneMb && !isValidFile){
+            if (!isLargerThanOneMb && !isValidFile) {
                 setErrorState(prevState => ({
                     ...prevState,
                     imageStyle: "error-holder validation-error",
                     imageInputStyle: 'form-input error-input',
                     imageText: "დაშვებულია მხოლოდ PNG, JPG და JPEG ფორმატები"
                 }));
+                imagePreviewRef.current.style.display = "none";
             }
         }
-        
+
     }
 
     const handleAgentChange = (event) => {
@@ -326,52 +328,52 @@ const AddListing = () => {
     const handleSubmit = () => {
         console.log(state)
         const form = document.querySelector('#add-listing-form');
-        if (isAnyInputEmpty(form)){
+        if (isAnyInputEmpty(form)) {
             console.log("empty inputs");
             alert("ჩაწერეთ ვალიდური მონაცემები");
             return;
         }
-        if (Object.values(errorState).some(value => value.includes('validation-error'))){
+        if (Object.values(errorState).some(value => value.includes('validation-error'))) {
             alert("ჩაწერეთ ვალიდური მონაცემები");
             return;
         }
-        
+
         else {
             const postData = async () => {
                 try {
-                  const response = await axios.post('https://api.real-estate-manager.redberryinternship.ge/api/real-estates', {
-                    is_rental: state.isRental,
-                    address: state.address,
-                    zip_code: state.zipCode,
-                    region_id: state.regionId,
-                    city_id: state.city,
-                    price: state.price,
-                    area: state.area,
-                    bedrooms: state.bedrooms,
-                    description: state.description,
-                    image: state.image,
-                    agent_id: state.agent,
-                  },
-                  {
-                    headers: {
-                      'Authorization': 'Bearer 9cfda59e-ab9c-4d44-a3b0-794325f8b2e6',
-                      'Content-Type': 'multipart/form-data'
+                    const response = await axios.post('https://api.real-estate-manager.redberryinternship.ge/api/real-estates', {
+                        is_rental: state.isRental,
+                        address: state.address,
+                        zip_code: state.zipCode,
+                        region_id: state.regionId,
+                        city_id: state.city,
+                        price: state.price,
+                        area: state.area,
+                        bedrooms: state.bedrooms,
+                        description: state.description,
+                        image: state.image,
+                        agent_id: state.agent,
                     },
-                  }
-                );
-                console.log('Response:', response.data);
-                if (response.status === 201){
-                    localStorage.removeItem('cachedAddListingState');
-                    localStorage.removeItem('cachedImagePreview');
-                    localStorage.removeItem('cachedErrorState');
-                    handleRoutingToMainPage();
-                }
+                        {
+                            headers: {
+                                'Authorization': 'Bearer 9cfda59e-ab9c-4d44-a3b0-794325f8b2e6',
+                                'Content-Type': 'multipart/form-data'
+                            },
+                        }
+                    );
+                    console.log('Response:', response.data);
+                    if (response.status === 201) {
+                        localStorage.removeItem('cachedAddListingState');
+                        localStorage.removeItem('cachedImagePreview');
+                        localStorage.removeItem('cachedErrorState');
+                        handleRoutingToMainPage();
+                    }
                 } catch (error) {
-                  console.error('Error posting data:', error);
+                    console.error('Error posting data:', error);
                 }
-              };
-              
-              postData();
+            };
+
+            postData();
         }
         console.log(state);
     }
@@ -381,30 +383,30 @@ const AddListing = () => {
             try {
                 const response = await axios.get('https://api.real-estate-manager.redberryinternship.ge/api/regions');
                 setRegions(response.data);
-              } catch (error) {
+            } catch (error) {
                 setRegionsError(error);
-              } finally {
+            } finally {
                 setRegionsLoading(false);
-              }
+            }
         };
-    
+
         fetchRegions();
         console.log(regions);
-      }, 
-    []);
+    },
+        []);
 
     useEffect(() => {
         const fetchCities = async () => {
             try {
                 const response = await axios.get('https://api.real-estate-manager.redberryinternship.ge/api/cities');
                 setCities(response.data);
-              } catch (error) {
+            } catch (error) {
                 setCitiesError(error);
-              } finally {
+            } finally {
                 setCitiesLoading(false);
-              }
+            }
         };
-    
+
         fetchCities();
         const filteredCitiesInner = cities.filter(city => {
             return (
@@ -413,8 +415,8 @@ const AddListing = () => {
         })
 
         setFilteredCitities(filteredCitiesInner);
-      }, 
-    [state.regionId, regionsLoading]);
+    },
+        [state.regionId, regionsLoading]);
 
     useEffect(() => {
         const fetchAgents = async () => {
@@ -425,20 +427,20 @@ const AddListing = () => {
                     }
                 });
                 setAgents(response.data);
-              } catch (error) {
+            } catch (error) {
                 setAgentsError(error);
-              } finally {
+            } finally {
                 setAgentsLoading(false);
-              }
+            }
         };
-    
+
         fetchAgents();
         console.log(agents);
-      }, 
-    []);
+    },
+        []);
 
     useEffect(() => {
-        if (!regionsLoading){
+        if (!regionsLoading) {
             console.log(addressErrorRef.current.value)
         }
     }, [])
@@ -453,16 +455,10 @@ const AddListing = () => {
     useEffect(() => {
         const previewImage = document.querySelector('.image-preview');
 
-        previewImage.onerror = function() {
-          this.style.display = 'none';
+        previewImage.onerror = function () {
+            this.style.display = 'none';
         };
-        // imagePreviewRef.current.onerror = function() {
-        //     imagePreviewRef.current.style.display = 'none';
-        // };
     }, []);
-
-    // console.log("REGIONS", regions)
-    // console.log("FILTERED CITIES", filteredCities)
 
     return (
         <div className="form-container">
@@ -474,25 +470,25 @@ const AddListing = () => {
                         <div className='is-rental-radios'>
                             <input type="radio" name="isRentalFalse" value="0" onChange={handleIsRentalChange} checked={(
                                 () => {
-                                    if (state.isRental === 0 || state.isRental === null){
+                                    if (state.isRental === 0 || state.isRental === null) {
                                         return true;
                                     }
                                     return false;
                                 }
                             )()
-                            }/>
+                            } />
                             <label for="isRentalFalse">იყიდება</label>
                         </div>
                         <div className='is-rental-radios'>
                             <input type="radio" name="isRentalTrue" value="1" onChange={handleIsRentalChange} checked={(
                                 () => {
-                                    if (state.isRental === 1){
+                                    if (state.isRental === 1) {
                                         return true;
                                     }
                                     return false;
                                 }
                             )()
-                            }/>
+                            } />
                             <label for="isRentalTrue">ქირავდება</label>
                         </div>
                     </div>
@@ -502,84 +498,84 @@ const AddListing = () => {
                 <div className="address-form-group">
                     <div className='address-input-holder'>
                         <label for="address">მისამართი*</label>
-                        <input type="text" id="address" name="address" className={errorState.addressInputStyle} onChange={handleAddressChange} defaultValue={state.address} required/>
+                        <input type="text" id="address" name="address" className={errorState.addressInputStyle} onChange={handleAddressChange} defaultValue={state.address} required />
                         <div className={errorState.addressStyle} ref={addressErrorRef}>
                             <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10 1.40918L3.125 9.591L0 5.87199" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M10 1.40918L3.125 9.591L0 5.87199" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                             <p className='potential-error-message'>{errorState.addressText}</p>
                         </div>
                     </div>
                     <div className='zip-code-input-holder'>
                         <label for="zip-code">საფოსტო ინდექსი*</label>
-                        <input type="text" id="zip-code" name="zip-code" className={errorState.zipCodeInputStyle} onChange={handleZipCodeChange} defaultValue={state.zipCode} required/>
+                        <input type="text" id="zip-code" name="zip-code" className={errorState.zipCodeInputStyle} onChange={handleZipCodeChange} defaultValue={state.zipCode} required />
                         <div className={errorState.zipCodeStyle} ref={zipCodeErrorRef}>
                             <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10 1.40918L3.125 9.591L0 5.87199" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M10 1.40918L3.125 9.591L0 5.87199" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                             <p className='potential-error-message'>{errorState.zipCodeText}</p>
                         </div>
                     </div>
                     <div className='region-input-holder'>
                         <label for="region">რეგიონი*</label>
-                            {regionsLoading ? (
-                                <p>Loading...</p> // TODO: რამე სპინერი
-                            ) : (
-                                <select id='region' name='region' onChange={handleRegionChange}>
+                        {regionsLoading ? (
+                            <p>Loading...</p> // TODO: რამე სპინერი
+                        ) : (
+                            <select id='region' name='region' onChange={handleRegionChange}>
                                 {regions.map((region, index) => (
-                                    <option key={index} value={region.id} 
-                                    selected={(
-                                        () => {
-                                            if (state.regionId === region.id){
-                                                return true;
-                                            }
-                                            return false;
-                                        }
-                                    )()
-                                    }
-                                    >{region.name}</option>
-                                ))}
-                                </select>
-                            )}
-                        </div>
-                    <div className='city-input-holder'>
-                        <label for="city" ref={cityLabelRef} className={(
-                                        () => {
-                                            if (state.regionId === null){
-                                                return 'disabled';
-                                            }
-                                            return '';
-                                        }
-                                    )()}>ქალაქი*</label>
-                            {regionsLoading ? (
-                                    <p>Loading...</p> // TODO: რამე სპინერი
-                                ) : (
-                                    <select id='city' name='city' ref={citySelectRef} onChange={handleCityChange} 
-                                    className={(
-                                        () => {
-                                            if (state.regionId === null){
-                                                return 'disabled';
-                                            }
-                                            return '';
-                                        }
-                                    )()}>
-                                    {filteredCities.map((city, index) => (
-                                        <option key={index} value={city.id}
+                                    <option key={index} value={region.id}
                                         selected={(
                                             () => {
-                                                if (state.city === city.id || state.city === null){
-                                                // if (index === 0){
+                                                if (state.regionId === region.id) {
                                                     return true;
                                                 }
                                                 return false;
                                             }
                                         )()
                                         }
-                                        
-                                        >{city.name}</option>
-                                    ))}
-                                    </select>
-                            )}
+                                    >{region.name}</option>
+                                ))}
+                            </select>
+                        )}
+                    </div>
+                    <div className='city-input-holder'>
+                        <label for="city" ref={cityLabelRef} className={(
+                            () => {
+                                if (state.regionId === null) {
+                                    return 'disabled';
+                                }
+                                return '';
+                            }
+                        )()}>ქალაქი*</label>
+                        {regionsLoading ? (
+                            <p>Loading...</p> // TODO: რამე სპინერი
+                        ) : (
+                            <select id='city' name='city' ref={citySelectRef} onChange={handleCityChange}
+                                className={(
+                                    () => {
+                                        if (state.regionId === null) {
+                                            return 'disabled';
+                                        }
+                                        return '';
+                                    }
+                                )()}>
+                                {filteredCities.map((city, index) => (
+                                    <option key={index} value={city.id}
+                                        selected={(
+                                            () => {
+                                                if (state.city === city.id || state.city === null) {
+                                                    // if (index === 0){
+                                                    return true;
+                                                }
+                                                return false;
+                                            }
+                                        )()
+                                        }
+
+                                    >{city.name}</option>
+                                ))}
+                            </select>
+                        )}
                     </div>
                 </div>
 
@@ -587,30 +583,30 @@ const AddListing = () => {
                 <div className="listing-details form-group">
                     <div className='price-input-holder'>
                         <label for="price">ფასი*</label>
-                        <input type="text" id="price" name="price" className={errorState.priceInputStyle} onChange={handlePriceChange} defaultValue={state.price} required/>
+                        <input type="text" id="price" name="price" className={errorState.priceInputStyle} onChange={handlePriceChange} defaultValue={state.price} required />
                         <div className={errorState.priceStyle} ref={priceErrorRef}>
                             <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10 1.40918L3.125 9.591L0 5.87199" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M10 1.40918L3.125 9.591L0 5.87199" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                             <p className='potential-error-message'>{errorState.priceText}</p>
                         </div>
                     </div>
                     <div className='area-input-holder'>
                         <label for="area">ფართობი*</label>
-                        <input type="text" id="area" name="area" className={errorState.areaInputStyle} onChange={handleAreaChange} defaultValue={state.area} required/>
+                        <input type="text" id="area" name="area" className={errorState.areaInputStyle} onChange={handleAreaChange} defaultValue={state.area} required />
                         <div className={errorState.areaStyle} ref={areaErrorRef}>
                             <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10 1.40918L3.125 9.591L0 5.87199" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M10 1.40918L3.125 9.591L0 5.87199" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                             <p className='potential-error-message'>{errorState.areaText}</p>
                         </div>
                     </div>
                     <div className='rooms-input-holder'>
                         <label for="bedrooms">საძინებლების რაოდენობა*</label>
-                        <input type="text" id="bedrooms" name="bedrooms" className={errorState.roomsInputStyle}  onChange={handleRoomsChange} defaultValue={state.bedrooms} required/>
+                        <input type="text" id="bedrooms" name="bedrooms" className={errorState.roomsInputStyle} onChange={handleRoomsChange} defaultValue={state.bedrooms} required />
                         <div className={errorState.roomsStyle} ref={roomsErrorRef}>
                             <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10 1.40918L3.125 9.591L0 5.87199" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M10 1.40918L3.125 9.591L0 5.87199" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                             <p className='potential-error-message'>{errorState.roomsText}</p>
                         </div>
@@ -620,10 +616,10 @@ const AddListing = () => {
                 <div className="listing-description">
                     <div className='description-input-holder'>
                         <label for="description">დეტალები*</label>
-                        <textarea id="description" name="description" rows="4"  className={errorState.descriptionInputStyle} onChange={handleDesciptionChange} defaultValue={state.description} required></textarea>
+                        <textarea id="description" name="description" rows="4" className={errorState.descriptionInputStyle} onChange={handleDesciptionChange} defaultValue={state.description} required></textarea>
                         <div className={errorState.descriptionStyle} ref={descriptionErrorRef}>
                             <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10 1.40918L3.125 9.591L0 5.87199" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M10 1.40918L3.125 9.591L0 5.87199" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                             <p className='potential-error-message'>{errorState.descriptionText}</p>
                         </div>
@@ -634,13 +630,13 @@ const AddListing = () => {
                     <div className='image-input-holder'>
                         <label for="image">ატვირთეთ ფოტო*</label>
                         <div className='file-upload-holder'>
-                            <FileUploader handleChange={handleImageChange} name="image" required/>
-                            <img className="image-preview" src={imagePreview} ref={imagePreviewRef}/>
-                            <img className="add-image" src="/images/plus.png"/>
+                            <FileUploader handleChange={handleImageChange} name="image" required />
+                            <img className="image-preview" src={imagePreview} ref={imagePreviewRef} />
+                            <img className="add-image" src="/images/plus.png" />
                         </div>
                         <div className={errorState.imageStyle} ref={imageErrorRef}>
                             <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10 1.40918L3.125 9.591L0 5.87199" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M10 1.40918L3.125 9.591L0 5.87199" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                             <p className='potential-error-message'>{errorState.imageText}</p>
                         </div>
@@ -653,12 +649,12 @@ const AddListing = () => {
                         <label for="agent">აირჩიე</label>
                         {agentsLoading ? (
                             <p>Loading...</p> // TODO: რამე სპინერი
-                            ) : (
-                                <select id='agent' name='agent'  onChange={handleAgentChange}>
+                        ) : (
+                            <select id='agent' name='agent' onChange={handleAgentChange}>
                                 {agents.map((agent, index) => (
                                     <option key={index} value={agent.id} selected={(
                                         () => {
-                                            if (state.agent === agent.id){
+                                            if (state.agent === agent.id) {
                                                 return true;
                                             }
                                             return false;
@@ -666,19 +662,19 @@ const AddListing = () => {
                                     )()
                                     }>{agent.name}</option>
                                 ))}
-                                </select>
-                            )
+                            </select>
+                        )
                         }
                     </div>
                 </div>
             </form>
 
             <div className='add-listing-buttons'>
-                <button id="cancel-btn" onClick={() => {handleCancel()}}>გაუქმება</button>
-                <button id="submit-btn" onClick={() => {handleSubmit()}}>დაამატე ლისტინგი</button>
+                <button id="cancel-btn" onClick={() => { handleCancel() }}>გაუქმება</button>
+                <button id="submit-btn" onClick={() => { handleSubmit() }}>დაამატე ლისტინგი</button>
             </div>
         </div>
     );
-  };
-  
-  export default AddListing;
+};
+
+export default AddListing;

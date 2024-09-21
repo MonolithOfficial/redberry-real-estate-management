@@ -4,6 +4,7 @@ import ListingCard from './listing-card';
 import Filter from './filter';
 import styles from '../styles/listings.scss';
 import { useNavigate } from 'react-router-dom';
+import AddAgentModal from './add-agent-modal';
 
 const Listings = () => {
     const [filterState, setFilterState] = useState(() => {
@@ -21,6 +22,8 @@ const Listings = () => {
     const [filteredData, setFilteredData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [addAgentModalIsOpen, setAddAgentModalIsOpen] = useState(false);
+
     const navigate = useNavigate();
     
     const updateFilterState = (newFilterState) => {
@@ -29,6 +32,14 @@ const Listings = () => {
 
     const handleRoutingToAddListingPage= () => {
         navigate(`/add-listing`);
+    };
+
+    const handleModalOpen = () => {
+        setAddAgentModalIsOpen(true);
+    }
+
+    const handleModalClose = () => {
+        setAddAgentModalIsOpen(false);
     };
 
     useEffect(() => {
@@ -84,7 +95,11 @@ const Listings = () => {
 
     return (
         <main id='listings-page'>
-            <Filter filterState={filterState} updateFilterState={updateFilterState} handleRoutingToAddListingPage={handleRoutingToAddListingPage}/>
+            <AddAgentModal isOpen={addAgentModalIsOpen} handleModalClose={handleModalClose}/>
+            <Filter filterState={filterState}
+                updateFilterState={updateFilterState}
+                handleRoutingToAddListingPage={handleRoutingToAddListingPage}
+                handleAddAgentModalOpen={handleModalOpen}/>
             <div id='listings-holder'>
                 {filteredData.length === 0 ? (
                     <p id='not-found-msg'>აღნიშნული მონაცემებით განცხადება არ იძებნება</p>
