@@ -327,6 +327,7 @@ const AddListing = () => {
         console.log(state)
         const form = document.querySelector('#add-listing-form');
         if (isAnyInputEmpty(form)){
+            console.log("empty inputs");
             alert("ჩაწერეთ ვალიდური მონაცემები");
             return;
         }
@@ -358,13 +359,13 @@ const AddListing = () => {
                     },
                   }
                 );
-                  console.log('Response:', response.data);
-                  if (response.status === 201){
+                console.log('Response:', response.data);
+                if (response.status === 201){
                     localStorage.removeItem('cachedAddListingState');
                     localStorage.removeItem('cachedImagePreview');
                     localStorage.removeItem('cachedErrorState');
                     handleRoutingToMainPage();
-                  }
+                }
                 } catch (error) {
                   console.error('Error posting data:', error);
                 }

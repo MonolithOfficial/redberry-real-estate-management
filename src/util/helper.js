@@ -22,12 +22,16 @@ export function validateFileExtension(file) {
     return allowedExtensions.test(file.name);
 }
 
-export function isAnyInputEmpty(form) {
+export function isAnyInputEmpty(form, image) {
     const inputs = form.querySelectorAll('input');
+    if (image === null){
+        return false;
+    }
     for (let input of inputs) {
-      if (input.value.trim() === '') {
-        return true;
-      }
+        if (input.type !== 'file' && input.value.trim() === '') {
+            console.log(input);
+            return true;
+        }
     }
     return false;
   };
