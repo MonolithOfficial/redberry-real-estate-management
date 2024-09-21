@@ -506,6 +506,7 @@ const AddListing = () => {
         };
         if (state.image === null) {
             deleteImageRef.current.style.display = "none";
+            imagePreviewHolderRef.current.style.zIndex = "0";
         }
 
     }, []);

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import styles from '../styles/add-agent-modal.scss';
 import { FileUploader } from "react-drag-drop-files";
-import { validateIfStringNonNumeric, checkIfFileLargerThanMegabyte, isAnyInputEmpty, validateFileExtension, isValidPhoneNumber, saveFileToLocalStorage, base64ToFile } from '../util/helper';
+import { checkIfFileLargerThanMegabyte, isAnyInputEmpty, validateFileExtension, isValidPhoneNumber, saveFileToLocalStorage, base64ToFile } from '../util/helper';
 import axios from "axios";
 
 
