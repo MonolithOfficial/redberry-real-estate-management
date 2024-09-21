@@ -12,7 +12,7 @@ export function validateIfStringNonNumeric(string) {
 
 export function validateIfStringContainsMoreThanWords(string, number) {
     const words = string.trim().split(/\s+/);
-    return words.length > number;
+    return words.length >= number;
 }
 
 export function checkIfFileLargerThanMegabyte(file) {

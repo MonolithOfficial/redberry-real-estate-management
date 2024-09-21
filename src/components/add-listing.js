@@ -161,15 +161,6 @@ const AddListing = () => {
         }));
         citySelectRef.current.classList.remove("disabled");
         cityLabelRef.current.classList.remove("disabled");
-
-        // TODO: უნდა გაუმჯობესდეს ქალაქების არჩევის ლოგიკა
-        setTimeout(() => {
-            console.log(citySelectRef.current.value)
-            setState(prevState => ({
-                ...prevState,
-                city: Number(citySelectRef.current.value)
-            }));
-        }, 1000);
         console.log(state.regionId)
     }
 
@@ -341,12 +332,16 @@ const AddListing = () => {
     const handleSubmit = () => {
         console.log(state)
         const form = document.querySelector('#add-listing-form');
-        if (state.regionId === null){
+        if (state.regionId === null) {
             alert("აირჩიეთ რეგიონი.");
             return;
         }
-        if (state.agent === null){
+        if (state.agent === null) {
             alert("აირჩიეთ აგენტი.");
+            return;
+        }
+        if (state.city === null) {
+            alert("აირჩიეთ ქალაქი.");
             return;
         }
         if (isAnyInputEmpty(form)) {
@@ -420,11 +415,6 @@ const AddListing = () => {
             try {
                 const response = await axios.get('https://api.real-estate-manager.redberryinternship.ge/api/regions');
                 setRegions(response.data);
-                // setState(prevState => ({
-                //     ...prevState,
-                //     regionId: response.data[3].id,
-                // }));
-                // console.log(response.data[3].id);
 
             } catch (error) {
                 setRegionsError(error);
@@ -477,15 +467,8 @@ const AddListing = () => {
         };
 
         fetchAgents();
-        console.log(agents);
     },
         []);
-
-    useEffect(() => {
-        if (!regionsLoading) {
-            console.log(addressErrorRef.current.value)
-        }
-    }, [])
 
     // მონაცემების შენახვის ლოგიკა
     useEffect(() => {
@@ -602,21 +585,9 @@ const AddListing = () => {
                                         return '';
                                     }
                                 )()}>
+                                <option value="" disabled selected>ქალაქი</option>
                                 {filteredCities.map((city, index) => (
-                                    <option key={index} value={city.id}
-                                        selected={(
-                                            () => {
-                                                if (state.city !== null) {
-                                                    if (state.city === city.id) {
-                                                        return true;
-                                                    }
-                                                }
-                                                return false;
-                                            }
-                                        )()
-                                        }
-
-                                    >{city.name}</option>
+                                    <option key={index} value={city.id}>{city.name}</option>
                                 ))}
                             </select>
                         )}
