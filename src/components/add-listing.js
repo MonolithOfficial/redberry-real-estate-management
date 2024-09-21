@@ -324,6 +324,7 @@ const AddListing = () => {
     }
 
     const handleSubmit = () => {
+        console.log(state)
         const form = document.querySelector('#add-listing-form');
         if (isAnyInputEmpty(form)){
             alert("ჩაწერეთ ვალიდური მონაცემები");
@@ -335,7 +336,6 @@ const AddListing = () => {
         }
         
         else {
-            console.log(state)
             const postData = async () => {
                 try {
                   const response = await axios.post('https://api.real-estate-manager.redberryinternship.ge/api/real-estates', {
