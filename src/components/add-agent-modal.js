@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import styles from '../styles/add-agent-modal.scss';
 import { FileUploader } from "react-drag-drop-files";
-import { validateIfStringNonNumeric, checkIfFileLargerThanMegabyte, isAnyInputEmpty, validateFileExtension, isValidPhoneNumber } from '../util/helper';
+import { validateIfStringNonNumeric, checkIfFileLargerThanMegabyte, isAnyInputEmpty, validateFileExtension, isValidPhoneNumber, saveFileToLocalStorage, base64ToFile } from '../util/helper';
 import axios from "axios";
 
 
@@ -157,6 +157,7 @@ const AddAgentModal = ({ isOpen, handleModalClose }) => {
     const isLargerThanOneMb = checkIfFileLargerThanMegabyte(file);
     const isValidFile = validateFileExtension(file);
     if (!isLargerThanOneMb && isValidFile) {
+      saveFileToLocalStorage(file, "cachedBase64AgentImage", "cachedAddAgentImageName", file.name);
       setState(prevState => ({
         ...prevState,
         image: file,
@@ -277,6 +278,19 @@ const AddAgentModal = ({ isOpen, handleModalClose }) => {
     }
     console.log(state);
   }
+
+  useEffect(() => {
+    const cachedBase64AgentImage = localStorage.getItem('cachedBase64AgentImage');
+    const cachedAddAgentImageName = localStorage.getItem('cachedAddAgentImageName');
+    if (cachedBase64AgentImage && cachedAddAgentImageName) {
+        const recoveredFile = base64ToFile(cachedBase64AgentImage, cachedAddAgentImageName);
+        setState(prevState => ({
+            ...prevState,
+            image: recoveredFile,
+        }));
+        setImagePreview(URL.createObjectURL(recoveredFile));
+    }
+}, []);
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutsideAddAgentModal);

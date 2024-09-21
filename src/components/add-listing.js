@@ -2,7 +2,15 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from '../styles/add-listing.scss';
 import axios from 'axios';
 import { FileUploader } from "react-drag-drop-files";
-import { validateIfStringNonNumeric, validateIfStringContainsMoreThanWords, checkIfFileLargerThanMegabyte, isAnyInputEmpty, validateFileExtension } from '../util/helper';
+import {
+    validateIfStringNonNumeric,
+    validateIfStringContainsMoreThanWords,
+    checkIfFileLargerThanMegabyte,
+    isAnyInputEmpty,
+    validateFileExtension,
+    saveFileToLocalStorage,
+    base64ToFile
+} from '../util/helper';
 import { useNavigate } from 'react-router-dom';
 
 const AddListing = () => {
@@ -23,6 +31,8 @@ const AddListing = () => {
             agent: null,
         };
     });
+
+
 
     const [errorState, setErrorState] = useState(() => {
         const cachedErrorState = localStorage.getItem('cachedErrorState');
@@ -270,6 +280,7 @@ const AddListing = () => {
         const isLargerThanOneMb = checkIfFileLargerThanMegabyte(file);
         const isValidFile = validateFileExtension(file);
         if (!isLargerThanOneMb && isValidFile) {
+            saveFileToLocalStorage(file, "cachedBase64ListingImage", "cachedAddListingImageName", file.name);
             setState(prevState => ({
                 ...prevState,
                 image: file,
@@ -322,6 +333,8 @@ const AddListing = () => {
         localStorage.removeItem('cachedAddListingState');
         localStorage.removeItem('cachedImagePreview');
         localStorage.removeItem('cachedErrorState');
+        localStorage.removeItem('cachedBase64ListingImage');
+        localStorage.removeItem('cachedAddListingImageName');
         handleRoutingToMainPage();
     }
 
@@ -381,6 +394,19 @@ const AddListing = () => {
         }
         console.log(state);
     }
+
+    useEffect(() => {
+        const cachedBase64ListingImage = localStorage.getItem('cachedBase64ListingImage');
+        const cachedAddListingImageName = localStorage.getItem('cachedAddListingImageName');
+        if (cachedBase64ListingImage && cachedAddListingImageName) {
+            const recoveredFile = base64ToFile(cachedBase64ListingImage, cachedAddListingImageName);
+            setState(prevState => ({
+                ...prevState,
+                image: recoveredFile,
+            }));
+            setImagePreview(URL.createObjectURL(recoveredFile));
+        }
+    }, []);
 
     useEffect(() => {
         const fetchRegions = async () => {
