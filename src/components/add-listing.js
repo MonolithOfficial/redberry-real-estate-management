@@ -9,7 +9,7 @@ const AddListing = () => {
     const [state, setState] = useState(() => {
         const cachedState = localStorage.getItem('cachedAddListingState');
         return cachedState ? JSON.parse(cachedState) : {
-            isRental: null,
+            isRental: 0,
             address: null,
             zipCode: null,
             region: null,
@@ -387,6 +387,12 @@ const AddListing = () => {
             try {
                 const response = await axios.get('https://api.real-estate-manager.redberryinternship.ge/api/regions');
                 setRegions(response.data);
+                // setState(prevState => ({
+                //     ...prevState,
+                //     regionId: response.data[3].id,
+                // }));
+                // console.log(response.data[3].id);
+
             } catch (error) {
                 setRegionsError(error);
             } finally {
@@ -395,7 +401,6 @@ const AddListing = () => {
         };
 
         fetchRegions();
-        console.log(regions);
     },
         []);
 
@@ -526,6 +531,7 @@ const AddListing = () => {
                             <p>Loading...</p> // TODO: რამე სპინერი
                         ) : (
                             <select id='region' name='region' onChange={handleRegionChange}>
+                                <option value="" disabled selected>რეგიონი</option>
                                 {regions.map((region, index) => (
                                     <option key={index} value={region.id}
                                         selected={(
@@ -567,9 +573,10 @@ const AddListing = () => {
                                     <option key={index} value={city.id}
                                         selected={(
                                             () => {
-                                                if (state.city === city.id || state.city === null) {
-                                                    // if (index === 0){
-                                                    return true;
+                                                if (state.city !== null) {
+                                                    if (state.city === city.id) {
+                                                        return true;
+                                                    }
                                                 }
                                                 return false;
                                             }
@@ -655,16 +662,9 @@ const AddListing = () => {
                             <p>Loading...</p> // TODO: რამე სპინერი
                         ) : (
                             <select id='agent' name='agent' onChange={handleAgentChange}>
+                                <option value="" disabled selected>აგენტი</option>
                                 {agents.map((agent, index) => (
-                                    <option key={index} value={agent.id} selected={(
-                                        () => {
-                                            if (state.agent === agent.id) {
-                                                return true;
-                                            }
-                                            return false;
-                                        }
-                                    )()
-                                    }>{agent.name}</option>
+                                    <option key={index} value={agent.id}>{agent.name}</option>
                                 ))}
                             </select>
                         )

@@ -179,6 +179,10 @@
                 flex-direction: column;
                 row-gap: 5px;
 
+                & .disabled {
+                    display: none;
+                }
+
                 & .error-holder {
                     display: flex;
                     flex-direction: row;
@@ -321,9 +325,6 @@
 
         .form-group {
             margin-bottom: 20px;
-            & .disabled {
-                display: none;
-            }
         }
     }
 }
