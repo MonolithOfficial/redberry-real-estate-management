@@ -4,6 +4,15 @@
     margin: 0 auto;
     background-color: #FFFFFF;
 
+    & h1 {
+        font-size: 32px;
+        font-weight: 500;
+        line-height: 38.4px;
+        color: #021526;
+        margin: 0;
+        margin-top: 61px;
+    }
+
     & select {
         appearance: none;
         background-color: transparent;
@@ -71,12 +80,16 @@
 
 
     & #add-listing-form {
-        h3 {
+        & h3 {
             font-size: 16px;
             font-weight: 500;
             color: #1A1A1F;
             text-align: start;
             margin-top: 80px;
+
+            &:nth-child(1){
+                margin-top: 61px;
+            }
         }
 
         & input, select {

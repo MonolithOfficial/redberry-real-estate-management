@@ -466,6 +466,7 @@ const AddListing = () => {
 
     return (
         <div className="form-container">
+            <h1>ლისტინგის დამატება</h1>
             <form id='add-listing-form' action="#" method="POST">
                 <h3>გარიგების ტიპი</h3>
                 <div className="is-rental-holder form-group">
