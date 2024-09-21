@@ -1,9 +1,18 @@
+#listings-spinner {
+    position: fixed;
+    top: 50%;
+    left: 50%; 
+    transform: translate(-50%, -50%);
+}
+
 #listings-holder {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     column-gap: 20px;
     row-gap: 20px;
     padding: 20px 162px 20px 162px;
+
+
 
     & #not-found-msg {
         font-size: 20px;

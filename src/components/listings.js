@@ -5,6 +5,7 @@ import Filter from './filter';
 import styles from '../styles/listings.scss';
 import { useNavigate } from 'react-router-dom';
 import AddAgentModal from './add-agent-modal';
+import { Circles } from 'react-loader-spinner';
 
 const Listings = () => {
     const [filterState, setFilterState] = useState(() => {
@@ -83,7 +84,15 @@ const Listings = () => {
     }, [filterState, data, loading]);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div id='listings-spinner'>
+            <Circles
+                height="80"
+                width="80"
+                color="#F93B1D"
+                ariaLabel="circles-loading"
+                visible={true}
+            />
+        </div>;
     }
 
     if (error) {

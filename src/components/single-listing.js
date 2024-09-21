@@ -5,6 +5,7 @@ import styles from '../styles/single-listing.scss';
 import { priceFormatterCommaSpace } from '../util/helper';
 import CustomSlider from './slider';
 import DeleteModal from './delete-modal';
+import { Circles } from 'react-loader-spinner';
 
 const SingleListing = () => {
     const [listing, setListing] = useState(null);
@@ -105,7 +106,15 @@ const SingleListing = () => {
     }
 
     if (listingLoading) {
-        return <div>Loading...</div>;
+        return <div id='listing-spinner'>
+            <Circles
+                height="80"
+                width="80"
+                color="#F93B1D"
+                ariaLabel="circles-loading"
+                visible={true}
+            />
+        </div>;
     }
 
     if (listingError) {
