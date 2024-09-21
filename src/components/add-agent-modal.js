@@ -206,8 +206,8 @@ const AddAgentModal = ({ isOpen, handleModalClose }) => {
 
   const handleDeleteThumbnail = () => {
     setState(prevState => ({
-        ...prevState,
-        image: null,
+      ...prevState,
+      image: null,
     }));
     setImagePreview(null);
     localStorage.removeItem('cachedBase64AgentImage');
@@ -215,7 +215,7 @@ const AddAgentModal = ({ isOpen, handleModalClose }) => {
     imagePreviewRef.current.style.display = "none";
     deleteImageRef.current.style.display = "none";
     imagePreviewHolderRef.current.style.zIndex = "0";
-}
+  }
 
   const handleCancel = () => {
     localStorage.removeItem('cachedAddAgentState');
@@ -330,14 +330,16 @@ const AddAgentModal = ({ isOpen, handleModalClose }) => {
     if (isOpen) {
       const previewImage = document.querySelector('.image-preview');
 
-      previewImage.onerror = function () {
+      previewImage.querySelector("img").onerror = function () {
         this.style.display = 'none';
+        imagePreviewHolderRef.current.style.zIndex = "0";
         deleteImageRef.current.style.display = "none";
       };
 
       if (state.image === null) {
+        imagePreviewHolderRef.current.style.zIndex = "0";
         deleteImageRef.current.style.display = "none";
-    }
+      }
     }
   }, [isOpen]);
 

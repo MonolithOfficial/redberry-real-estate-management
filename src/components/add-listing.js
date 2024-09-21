@@ -499,8 +499,9 @@ const AddListing = () => {
     useEffect(() => {
         const previewImage = document.querySelector('.image-preview');
 
-        previewImage.onerror = function () {
+        previewImage.querySelector("img").onerror = function () {
             this.style.display = 'none';
+            imagePreviewHolderRef.current.style.zIndex = "0";
             deleteImageRef.current.style.display = "none";
         };
         if (state.image === null) {
