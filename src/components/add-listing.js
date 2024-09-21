@@ -341,17 +341,24 @@ const AddListing = () => {
     const handleSubmit = () => {
         console.log(state)
         const form = document.querySelector('#add-listing-form');
+        if (state.regionId === null){
+            alert("აირჩიეთ რეგიონი.");
+            return;
+        }
+        if (state.agent === null){
+            alert("აირჩიეთ აგენტი.");
+            return;
+        }
         if (isAnyInputEmpty(form)) {
-            console.log("empty inputs");
-            alert("ჩაწერეთ ვალიდური მონაცემები");
+            alert("ჩაწერეთ ვალიდური მონაცემები.");
             return;
         }
         if (state.image === null) {
-            alert("ატვირთეთ სურათი");
+            alert("ატვირთეთ სურათი.");
             return;
         }
         if (Object.values(errorState).some(value => value.includes('validation-error'))) {
-            alert("ჩაწერეთ ვალიდური მონაცემები");
+            alert("ჩაწერეთ ვალიდური მონაცემები.");
             return;
         }
 

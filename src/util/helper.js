@@ -30,7 +30,6 @@ export function isAnyInputEmpty(form) {
     const inputs = form.querySelectorAll('input');
     for (let input of inputs) {
         if (input.type !== 'file' && input.value.trim() === '') {
-            console.log(input);
             return true;
         }
     }
